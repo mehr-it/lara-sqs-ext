@@ -1,0 +1,38 @@
+{
+  "name": "mehr-it/lara-sqs-ext",
+  "description": "Extended and extensible SQS Queue driver for Laravel (long polling, additional parameters)",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christopher Mieger",
+      "email": "mail@mehr-it.info"
+    }
+  ],
+  "autoload": {
+    "psr-0": {
+      "": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-0": {
+      "": "test/"
+    }
+  },
+  "require": {
+    "php": ">=5.6.0",
+    "aws/aws-sdk-php": "~3.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.4",
+    "orchestra/testbench": "^3.7"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "MehrIt\\LaraSqsExt\\Provider\\SqsExtServiceProvider"
+      ]
+    }
+  }
+}
