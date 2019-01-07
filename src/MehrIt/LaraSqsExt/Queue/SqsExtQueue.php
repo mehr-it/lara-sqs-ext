@@ -15,10 +15,11 @@
 	use Illuminate\Queue\Jobs\SqsJob;
 	use Illuminate\Queue\SqsQueue;
 	use Illuminate\Support\Arr;
+	use MehrIt\LaraSqsExt\Queue\Jobs\SqsExtJob;
 
 	class SqsExtQueue extends SqsQueue
 	{
-		const DEFAULT_JOB_TYPE = SqsJob::class;
+		const DEFAULT_JOB_TYPE = SqsExtJob::class;
 
 		protected $options;
 		protected $messageWaitTimeout;

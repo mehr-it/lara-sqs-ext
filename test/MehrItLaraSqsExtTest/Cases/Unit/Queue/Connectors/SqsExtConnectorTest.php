@@ -6,7 +6,7 @@
 	 * Time: 19:47
 	 */
 
-	namespace MehrItLaraSqsExtTest\Cases\Unit\Connectors;
+	namespace MehrItLaraSqsExtTest\Cases\Unit\Queue\Connectors;
 
 
 	use Aws\Sqs\SqsClient;

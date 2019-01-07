@@ -10,6 +10,7 @@
 
 	use Aws\Result;
 	use Illuminate\Queue\Jobs\SqsJob;
+	use MehrIt\LaraSqsExt\Queue\Jobs\SqsExtJob;
 	use MehrIt\LaraSqsExt\Queue\SqsExtQueue;
 	use Mockery as m;
 	use Aws\Sqs\SqsClient;
@@ -73,7 +74,7 @@
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
 			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveMessageResponseModel);
 			$result = $queue->pop($this->queueName);
-			$this->assertInstanceOf(SqsJob::class, $result);
+			$this->assertInstanceOf(SqsExtJob::class, $result);
 
 		}
 
@@ -83,7 +84,7 @@
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
 			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount'], 'WaitTimeSeconds' => 20])->andReturn($this->mockedReceiveMessageResponseModel);
 			$result = $queue->pop($this->queueName);
-			$this->assertInstanceOf(SqsJob::class, $result);
+			$this->assertInstanceOf(SqsExtJob::class, $result);
 
 		}
 
