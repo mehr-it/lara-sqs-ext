@@ -15,16 +15,6 @@
 	{
 
 		/**
-		 * @var bool|int Determines if the SQS visibility timeout is automatically set to the job's timeout
-		 */
-		protected $automaticQueueVisibility = true;
-
-		/**
-		 * @var int Extra amount if time added to job's timeout when setting SQS visibility timeout automatically
-		 */
-		protected $automaticQueueVisibilityExtra = 0;
-
-		/**
 		 * Sets the time the job remains invisible to other queue workers
 		 * @param int $time Time in seconds
 		 */
@@ -43,9 +33,9 @@
 		 */
 		public function fire() {
 
-			// set SQS visibility timeout to job timeout
+			// set SQS visibility timeout
 			if ($t = $this->getAutomaticVisibilityTimeout())
-				$this->setVisibilityTimeout($t + $this->automaticQueueVisibilityExtra);
+				$this->setVisibilityTimeout($t);
 
 			// fire the job
 			parent::fire();
@@ -57,16 +47,36 @@
 		 */
 		public function getAutomaticVisibilityTimeout() {
 
-			if ($this->automaticQueueVisibility) {
+			if ($av = $this->automaticQueueVisibility()) {
 
-				if (is_int($this->automaticQueueVisibility))
-					return $this->automaticQueueVisibility;
+				if (is_int($av))
+					return $av;
 
 				if ($t = $this->timeout())
-					return $t;
+					return $t + $this->automaticQueueVisibilityExtra();
 			}
 
 			return null;
 		}
+
+		/**
+		 * Gets the automatic queue visibility time
+		 *
+		 * @return int|boolean|null
+		 */
+		public function automaticQueueVisibility() {
+			return $this->payload()['automaticQueueVisibility'] ?? true;
+		}
+
+		/**
+		 * Gets the automatic queue visibility time to add to job timeout
+		 *
+		 * @return int
+		 */
+		public function automaticQueueVisibilityExtra() {
+			return $this->payload()['automaticQueueVisibilityExtra'] ?? 0;
+		}
+
+
 
 	}

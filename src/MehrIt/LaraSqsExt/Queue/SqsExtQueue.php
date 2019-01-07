@@ -117,6 +117,19 @@
 			return $this->sqs->receiveMessage($params);
 		}
 
+		/**
+		 * @inheritdoc
+		 */
+		protected function createObjectPayload($job, $queue){
+            $payload = parent::createObjectPayload($job, $queue);
+
+            // we add some extra data to the payload
+			$payload['automaticQueueVisibility']      = $job->automaticQueueVisibility ?? true;
+			$payload['automaticQueueVisibilityExtra'] = $job->automaticQueueVisibilityExtra ?? 0;
+
+            return $payload;
+		}
+
 
 		/**
 		 * May be used by child classes to override message receive parameters passed to the SQS client's receiveMessage function

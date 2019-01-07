@@ -184,5 +184,46 @@
 			$this->assertEquals($options, $queue->getOptions());
 		}
 
+		public function testCreateObjectPayload() {
+
+			$this->expectNotToPerformAssertions();
+
+			$job = new TestExtQueueJob();
+
+			$queue = new SqsExtQueue($this->sqs, $this->queueUrl);
+			$this->sqs->shouldReceive('sendMessage')->once()->withArgs(function($args) use ($job) {
+				if ($args['QueueUrl'] != $this->queueUrl)
+					return false;
+
+				$messageBody = json_decode($args['MessageBody'], true);
+				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
+					return false;
+				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
+					return false;
+
+
+				return true;
+			})->andReturn($this->mockedSendMessageResponseModel);
+			$queue->push($job);
+
+		}
+
+	}
+
+	class TestExtQueueJob  {
+
+		public $timeout = 0;
+
+		/**
+		 * @var bool|int Determines if the SQS visibility timeout is automatically set to the job's timeout
+		 */
+		public $automaticQueueVisibility = true;
+
+		/**
+		 * @var int Extra amount if time added to job's timeout when setting SQS visibility timeout automatically
+		 */
+		public $automaticQueueVisibilityExtra = 0;
+
+
 	}
 

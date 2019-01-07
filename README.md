@@ -57,7 +57,7 @@ For more information about visibility timeout see the [AWS documentation](https:
 ### Automatically set visibility timeout to job timeout
 
 If your jobs have a timeout, the SQS messages should be invisible to other subscribers exactly the
-same time. Unfortunately laravel does not set it automatically.
+same time. Unfortunately Laravel does not set it automatically.
 
 However **SqsExtJob automatically sets the visibility timeout of the SQS messages to the job
 timeout** if a timeout is specified.
@@ -65,9 +65,10 @@ timeout** if a timeout is specified.
 We think this makes sense for all SQS jobs. That's why this behaviour is activated by default.
 
 However you may set a custom time value or deactivate this behaviour by setting
-`$automaticQueueVisibility = false`:
+`$automaticQueueVisibility = false`. Following example manually sets a visibility timeout which
+has precedence over job timeout:
 
-	class MyJob extends SqsExtJob	{
+	class MyJob implements ShouldQueue {
 		
 		// will set visibility timeout to 45sec, regardless of job's timeout
 		protected $automaticQueueVisibility = 45;
@@ -83,7 +84,7 @@ visibility timeout manually. This is especially useful if you want to acquire mo
 processing.
 
 **If you manually set the visibility timeout, be aware that the job timeout still applies and your
-worker processes will stop running after that amount of time**
+worker processes will stop running after that amount of time!**
 
 The `InteractsWithSqsQueue` trait implements the `setVisibilityTimeout` method, as the `InteractsWithQueue`
 trait does for other methods.

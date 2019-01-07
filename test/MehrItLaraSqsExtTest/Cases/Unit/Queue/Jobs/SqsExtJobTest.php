@@ -73,10 +73,7 @@
 				->disableOriginalConstructor()
 				->getMock();
 
-			$this->mockedPayload = json_encode(['job' => $this->mockedJob, 'data' => $this->mockedData, 'attempts' => 1, 'timeout' => 15]);
-			$this->mockedJobData['Body'] = $this->mockedPayload;
-
-			$job = $this->getJob();
+			$job = $this->getJob(['timeout' => 15]);
 			$job->getContainer()->shouldReceive('make')->once()->with('foo')->andReturn($handler = m::mock(stdClass::class));
 			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 15]);
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
@@ -89,11 +86,7 @@
 				->disableOriginalConstructor()
 				->getMock();
 
-			$this->mockedPayload = json_encode(['job' => $this->mockedJob, 'data' => $this->mockedData, 'attempts' => 1]);
-			$this->mockedJobData['Body'] = $this->mockedPayload;
-
-			$job = $this->getTestJob();
-			$job->setAutomaticQueueVisibility(23);
+			$job = $this->getJob(['automaticQueueVisibility' => 23]);
 			$job->getContainer()->shouldReceive('make')->once()->with('foo')->andReturn($handler = m::mock(stdClass::class));
 			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 23]);
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
@@ -106,11 +99,7 @@
 				->disableOriginalConstructor()
 				->getMock();
 
-			$this->mockedPayload = json_encode(['job' => $this->mockedJob, 'data' => $this->mockedData, 'attempts' => 1, 'timeout' => 13]);
-			$this->mockedJobData['Body'] = $this->mockedPayload;
-
-			$job = $this->getTestJob();
-			$job->setAutomaticQueueVisibility(12);
+			$job = $job = $this->getJob(['timeout' => 13, 'automaticQueueVisibility' => 12]);
 			$job->getContainer()->shouldReceive('make')->once()->with('foo')->andReturn($handler = m::mock(stdClass::class));
 			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 12]);
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
@@ -123,11 +112,7 @@
 				->disableOriginalConstructor()
 				->getMock();
 
-			$this->mockedPayload = json_encode(['job' => $this->mockedJob, 'data' => $this->mockedData, 'attempts' => 1, 'timeout' => 15]);
-			$this->mockedJobData['Body'] = $this->mockedPayload;
-
-			$job = $this->getTestJob();
-			$job->setAutomaticQueueVisibility(false);
+			$job = $job = $this->getJob(['timeout' => 15, 'automaticQueueVisibility' => false]);
 			$job->getContainer()->shouldReceive('make')->once()->with('foo')->andReturn($handler = m::mock(stdClass::class));
 			$job->getSqs()->expects($this->never())->method('changeMessageVisibility');
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
@@ -140,10 +125,7 @@
 				->disableOriginalConstructor()
 				->getMock();
 
-			$this->mockedPayload = json_encode(['job' => $this->mockedJob, 'data' => $this->mockedData, 'attempts' => 1]);
-			$this->mockedJobData['Body'] = $this->mockedPayload;
-
-			$job = $this->getJob();
+			$job = $job = $this->getJob();
 			$job->getContainer()->shouldReceive('make')->once()->with('foo')->andReturn($handler = m::mock(stdClass::class));
 			$job->getSqs()->expects($this->never())->method('changeMessageVisibility');
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
@@ -156,11 +138,7 @@
 				->disableOriginalConstructor()
 				->getMock();
 
-			$this->mockedPayload         = json_encode(['job' => $this->mockedJob, 'data' => $this->mockedData, 'attempts' => 1, 'timeout' => 15]);
-			$this->mockedJobData['Body'] = $this->mockedPayload;
-
-			$job = $this->getTestJob();
-			$job->setAutomaticQueueVisibilityExtra(3);
+			$job = $this->getJob(['timeout' => 15, 'automaticQueueVisibilityExtra' => 3]);
 			$job->getContainer()->shouldReceive('make')->once()->with('foo')->andReturn($handler = m::mock(stdClass::class));
 			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 18]);
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
@@ -203,21 +181,17 @@
 			$job->setVisibilityTimeout(13);
 		}
 
-		protected function getJob() {
+		protected function getJob($payloadMerge = []) {
+			$payload = json_decode($this->mockedPayload, true);
+			$payload = json_encode(array_merge($payload, $payloadMerge));
+
+			$jobData         = $this->mockedJobData;
+			$jobData['Body'] = $payload;
+
 			return new SqsExtJob(
 				$this->mockedContainer,
 				$this->mockedSqsClient,
-				$this->mockedJobData,
-				'connection-name',
-				$this->queueUrl
-			);
-		}
-
-		protected function getTestJob() {
-			return new TestSqsExtJob(
-				$this->mockedContainer,
-				$this->mockedSqsClient,
-				$this->mockedJobData,
+				$jobData,
 				'connection-name',
 				$this->queueUrl
 			);
