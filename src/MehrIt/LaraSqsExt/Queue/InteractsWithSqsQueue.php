@@ -19,8 +19,11 @@
 		 */
 		public function setVisibilityTimeout($time) {
 			/** @var SqsExtJob $job */
-			$job = $this->job;
+			$job = isset($this->job) ? $this->job : null;
 
-			$job->setVisibilityTimeout($time);
+			if ($job && $job instanceof SqsExtJob) {
+
+				$job->setVisibilityTimeout($time);
+			}
 		}
 	}
