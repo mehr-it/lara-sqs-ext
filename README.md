@@ -1,7 +1,10 @@
 # lara-sqs-ext
 This package offers extended queue functionality for Amazon SQS queues in Laravel. Out of
 the box it adds support for long polling and automatically sets the visibility timeout to
-job's timeout. Of course you may set the visibility timeout manually at any time. 
+job's timeout. Of course you may set the visibility timeout manually at any time.
+
+At also adds support for listen locks, to only poll a queue with a single worker and
+save unnecessary costs.
 
 This package is also a great starting point for further extensions.
 
@@ -46,10 +49,31 @@ configuration if you query multiple queues with a single worker.
 
 For more information about long polling see the [AWS SDK documentation](https://docs.aws.amazon.com/de_de/sdk-for-php/v3/developer-guide/sqs-examples-enable-long-polling.html).
 
+### Listen locks
+
+When using long polling and multiple workers on the same queue, you should set the `listen_lock`
+option to `true`. This synchronizes the worker processes polling the same queue and allows only
+one worker at a time to poll the queue. This can save you a lot of money when using many workers.
+
+	'sqs-conn' => [
+    		'driver'               => 'sqs-ext',
+    		'key'                  => '112233445566778899',
+    		'secret'               => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+    		'prefix'               => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+    		'queue'                => 'msgs',
+    		'region'               => 'eu-central-1',
+    		'message_wait_timeout' => 20,
+    		'listen_lock'          => true,
+    		// optionally specify custom lock file
+    		'listen_lock_file'     => '/path/to/file'
+    	],
+
+As soon as the long polling API request returns (with message received or not) the listen lock
+is released and another process can acquire it.
 
 ## Visibility timeout
 
-The visibility timeout is one of the key concepts in AWS SQS but us not well used in Laravel's default
+The visibility timeout is one of the key concepts in AWS SQS but is not well used in Laravel's default
 SQS implementation. This package provides advanced usage of this feature.
 
 For more information about visibility timeout see the [AWS documentation](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html).

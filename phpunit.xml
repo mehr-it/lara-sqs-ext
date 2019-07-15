@@ -1,0 +1,7 @@
+<phpunit>
+
+    <php>
+        <env name="CACHE_DRIVER" value="file"/>
+    </php>
+
+</phpunit>

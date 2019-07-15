@@ -21,7 +21,7 @@
 	{
 
 
-		public function setUp() {
+		public function setUp() :void {
 			$this->key          = 'AMAZONSQSKEY';
 			$this->secret       = 'AmAz0n+SqSsEcReT+aLpHaNuM3R1CsTr1nG';
 			$this->service      = 'sqs';
@@ -53,7 +53,7 @@
 			];
 		}
 
-		public function tearDown() {
+		public function tearDown() : void {
 			m::close();
 		}
 
