@@ -168,6 +168,56 @@
 
 		}
 
+
+		public function testPopReturnsAfterListenLockTimeoutElapsed() {
+
+			$this->temporaryFiles[] = $lockFileName = tempnam(sys_get_temp_dir(), 'sqsExtQueueTestQueueLock');
+			$this->temporaryFiles[] = $readyFile = tempnam(sys_get_temp_dir(), 'sqsExtQueueTestReady');
+
+			$tsBefore = microtime(true);
+
+			$pid = pcntl_fork();
+			if ($pid == -1) {
+				$this->fail('Could not fork test process');
+			}
+			else if ($pid) {
+				$count = 0;
+				while (@file_get_contents($readyFile) != 'READY') {
+					if ($count > 30)
+						$this->fail('Waited 3sec for child process to become ready, but not signaled');
+					usleep(100000);
+				}
+
+				$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['listen_lock' => true, 'listen_lock_file' => $lockFileName, 'listen_lock_timeout' => 2]])->getMock();
+				$queue->setContainer(m::mock(Container::class));
+				$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+				$this->sqs->shouldNotReceive('receiveMessage');
+				$result = $queue->pop($this->queueName);
+				$this->assertNull($result);
+
+				// we should have waited 2sec, until child died and lock was released
+				$this->assertGreaterThan(2,microtime(true) - $tsBefore);
+				$this->assertLessThan(4,microtime(true) - $tsBefore);
+
+				pcntl_wait($status);
+			}
+			else {
+
+				if (!($fp = fopen($lockFileName, 'w+')))
+					throw new \RuntimeException('Could not open lock file ' . $lockFileName);
+
+				if (!flock($fp, LOCK_EX))
+					throw new \RuntimeException('Could not lock file ' . $lockFileName);
+
+				if (!file_put_contents($readyFile, 'READY'))
+					throw new \RuntimeException('Could not create ready file ' . $readyFile);
+
+				sleep(8);
+				die();
+			}
+
+		}
+
 		public function testPopAbortsOnQueueRestart() {
 
 

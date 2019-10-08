@@ -65,11 +65,17 @@ one worker at a time to poll the queue. This can save you a lot of money when us
     		'message_wait_timeout' => 20,
     		'listen_lock'          => true,
     		// optionally specify custom lock file
-    		'listen_lock_file'     => '/path/to/file'
+    		'listen_lock_file'     => '/path/to/file',
+    		// optionally specify listen lock timeout (in seconds)
+    		'listen_lock_timeout'  => 5
     	],
 
 As soon as the long polling API request returns (with message received or not) the listen lock
 is released and another process can acquire it.
+
+The `listen_lock_timeout` value specifies how long the queue driver tries to obtain the listen lock 
+before returning an empty reply to the worker loop. This value should not be too high, so that the
+worker regularly can check for restart and other signals. 
 
 ## Visibility timeout
 

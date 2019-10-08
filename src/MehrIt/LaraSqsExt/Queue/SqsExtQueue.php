@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+
 	/**
 	 * Created by PhpStorm.
 	 * User: chris
@@ -31,6 +32,8 @@
 
 		protected $listenLock = false;
 
+		protected $listenLockTimeout;
+
 		protected $lastQueueRestart;
 
 		/**
@@ -49,6 +52,11 @@
 			$this->messageWaitTimeout = Arr::get($this->options, 'message_wait_timeout', null);
 			$this->listenLock         = (bool)Arr::get($this->options, 'listen_lock', false);
 			$this->listenLockFile     = Arr::get($this->options, 'listen_lock_file', null);
+			$this->listenLockTimeout  = Arr::get($this->options, 'listen_lock_timeout', 5);
+
+			// check for pcntl extension required for listen lock
+			if ($this->listenLock && !extension_loaded('pcntl'))
+				throw new RuntimeException('Extension "pcntl" is required when using listen_lock.');
 
 			// create locks directory if no listen lock file specified
 			if ($this->listenLock && !$this->listenLockFile && !file_exists(storage_path('locks')))
@@ -132,8 +140,13 @@
 				if ($fp === false)
 					throw new RuntimeException("Could not open queue listen lock file \"{$lockFile}\".");
 
-				// Wait for lock file access. This might be interrupted by signals an return false. In this case
-				// we simply do nothing and return without receive, so the worker process can handle the signal first
+				// Here we set a timeout for flock which is used below. This way we return to the loop within
+				// an endless time and do not wait here forever blind for any external events
+				pcntl_signal(SIGALRM, function() {});
+				pcntl_alarm($this->listenLockTimeout);
+
+				// Wait for lock file access. This might be interrupted by the alarm signal an return false. In this case
+				// we simply do nothing and return without receive, so the worker process loop iterates again
 				$locked = flock($fp, LOCK_EX);
 				if (!$locked)
 					return null;
