@@ -54,10 +54,6 @@
 			$this->listenLockFile     = Arr::get($this->options, 'listen_lock_file', null);
 			$this->listenLockTimeout  = Arr::get($this->options, 'listen_lock_timeout', 5);
 
-			// check for pcntl extension required for listen lock
-			if ($this->listenLock && !extension_loaded('pcntl'))
-				throw new RuntimeException('Extension "pcntl" is required when using listen_lock.');
-
 			// create locks directory if no listen lock file specified
 			if ($this->listenLock && !$this->listenLockFile && !file_exists(storage_path('locks')))
 				mkdir(storage_path('locks'));
@@ -132,6 +128,10 @@
 		 * @return \Aws\Result|null
 		 */
 		protected function receiveMessageWithLock($queueUrl) {
+
+			// check for pcntl extension required for listen lock
+			if (!extension_loaded('pcntl'))
+				throw new RuntimeException('Extension "pcntl" is required when using listen_lock.');
 
 			$lockFile = $this->getListenLockFile($queueUrl);
 
