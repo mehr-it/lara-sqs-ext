@@ -36,5 +36,9 @@
         "MehrIt\\LaraSqsExt\\Provider\\SqsExtServiceProvider"
       ]
     }
+  },
+  "suggest": {
+    "mehr-it/lara-worker-heartbeat": "Heartbeat and observer for laravel workers allowing detection of hanging or stuck worker processes",
+    "ext-pcntl": "Required for listen locks feature"
   }
 }
