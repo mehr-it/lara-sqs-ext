@@ -1,7 +1,25 @@
-<phpunit>
-
-    <php>
-        <env name="CACHE_DRIVER" value="file"/>
-    </php>
-
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         verbose="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+<testsuites>
+    <testsuite name="Cases">
+        <directory>test</directory>
+    </testsuite>
+</testsuites>
+<filter>
+    <whitelist>
+        <directory suffix=".php">src/</directory>
+    </whitelist>
+</filter>
+<php>
+    <env name="CACHE_DRIVER" value="file"/>
+</php>
 </phpunit>
