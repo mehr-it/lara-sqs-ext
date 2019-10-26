@@ -34,7 +34,9 @@
 
 			$this->assertInstanceOf(SqsExtQueue::class, $ret);
 
-			$this->assertArraySubset($options, $ret->getOptions());
+			foreach($options as $key => $value) {
+				$this->assertSame($ret->getOptions()[$key] ?? null, $value);
+			}
 
 		}
 
@@ -58,7 +60,10 @@
 				$this->assertInstanceOf(SqsClient::class, $params['sqs']);
 				$this->assertSame($options['queue'], $params['default']);
 				$this->assertSame($options['prefix'], $params['prefix']);
-				$this->assertArraySubset($options, $params['options']);
+
+				foreach ($options as $key => $value) {
+					$this->assertSame($params['options'][$key] ?? null, $value);
+				}
 
 				return $queue;
 
