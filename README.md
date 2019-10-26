@@ -3,7 +3,7 @@ This package offers extended queue functionality for Amazon SQS queues in Larave
 the box it adds support for long polling and automatically sets the visibility timeout to
 job's timeout. Of course you may set the visibility timeout manually at any time.
 
-At also adds support for listen locks, to only poll a queue with a single worker and
+It also adds support for listen locks, to only poll a queue with a single worker and
 save unnecessary costs.
 
 This package is also a great starting point for further extensions.
