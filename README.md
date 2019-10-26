@@ -1,4 +1,7 @@
 # lara-sqs-ext
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mehr-it/lara-sqs-ext.svg?style=flat-square)](https://packagist.org/packages/mehr-it/lara-sqs-ext)
+[![Build Status](https://travis-ci.org/mehr-it/lara-sqs-ext.svg?branch=master)](https://travis-ci.org/mehr-it/lara-sqs-ext)
+
 This package offers extended queue functionality for Amazon SQS queues in Laravel. Out of
 the box it adds support for long polling and automatically sets the visibility timeout to
 job's timeout. Of course you may set the visibility timeout manually at any time.
