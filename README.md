@@ -3,8 +3,9 @@
 [![Build Status](https://travis-ci.org/mehr-it/lara-sqs-ext.svg?branch=master)](https://travis-ci.org/mehr-it/lara-sqs-ext)
 
 This package offers extended queue functionality for Amazon SQS queues in Laravel. Out of
-the box it adds support for long polling and automatically sets the visibility timeout to
-job's timeout. Of course you may set the visibility timeout manually at any time.
+the box it adds support for long polling, automatically sets the visibility timeout to
+job's timeout and allows longer delays (SQS maximum is 15min). Of course you may set the visibility
+timeout manually at any time.
 
 It also adds support for listen locks, to only poll a queue with a single worker and
 save unnecessary costs.
@@ -52,6 +53,28 @@ configuration if you query multiple queues with a single worker.
 
 For more information about long polling see the [AWS SDK documentation](https://docs.aws.amazon.com/de_de/sdk-for-php/v3/developer-guide/sqs-examples-enable-long-polling.html).
 
+### Extended job delay
+
+Amazon SQS has a maximum delay of 15 minutes for dispatched messages. For some use cases, this might
+not be enough. The `extend_delay` option allows to use longer delays when dispatching jobs:
+
+	'sqs-conn' => [
+        'driver'               => 'sqs-ext',
+        'key'                  => '112233445566778899',
+        'secret'               => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+        'prefix'               => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+        'queue'                => 'msgs',
+        'region'               => 'eu-central-1',
+        'message_wait_timeout' => 20,
+        'extend_delay'         => true,
+    ],
+
+When extended delay is enabled, the job will be delayed up to 15 minutes at SQS. For greater delays
+the job will be released back to the queue on each receive until the delay has elapsed.
+
+Note: messages delayed longer than 15 minutes will be "in flight" until the delay has elapsed. There
+is a [limit of 120,000 inflight messages for SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html#quotas-queues).
+
 ### Listen locks
 
 When using long polling and multiple workers on the same queue, you should set the `listen_lock`
@@ -59,19 +82,19 @@ option to `true`. This synchronizes the worker processes polling the same queue 
 one worker at a time to poll the queue. This can save you a lot of money when using many workers.
 
 	'sqs-conn' => [
-    		'driver'               => 'sqs-ext',
-    		'key'                  => '112233445566778899',
-    		'secret'               => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    		'prefix'               => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
-    		'queue'                => 'msgs',
-    		'region'               => 'eu-central-1',
-    		'message_wait_timeout' => 20,
-    		'listen_lock'          => true,
-    		// optionally specify custom lock file
-    		'listen_lock_file'     => '/path/to/file',
-    		// optionally specify listen lock timeout (in seconds)
-    		'listen_lock_timeout'  => 5
-    	],
+        'driver'               => 'sqs-ext',
+        'key'                  => '112233445566778899',
+        'secret'               => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+        'prefix'               => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+        'queue'                => 'msgs',
+        'region'               => 'eu-central-1',
+        'message_wait_timeout' => 20,
+        'listen_lock'          => true,
+        // optionally specify custom lock file
+        'listen_lock_file'     => '/path/to/file',
+        // optionally specify listen lock timeout (in seconds)
+        'listen_lock_timeout'  => 5
+    ],
 
 As soon as the long polling API request returns (with message received or not) the listen lock
 is released and another process can acquire it.

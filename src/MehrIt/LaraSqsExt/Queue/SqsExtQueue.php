@@ -24,6 +24,8 @@
 	{
 		const DEFAULT_JOB_TYPE = SqsExtJob::class;
 
+		const SQS_MAX_MESSAGE_DELAY = 900; // 15min (15 * 60s), see https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html
+
 		protected $options;
 
 		protected $messageWaitTimeout;
@@ -35,6 +37,10 @@
 		protected $listenLockTimeout;
 
 		protected $lastQueueRestart;
+
+		protected $extendMessageDelay;
+
+		protected $nextNotBefore;
 
 		/**
 		 * Create a new Amazon SQS extended queue instance.
@@ -53,6 +59,7 @@
 			$this->listenLock         = (bool)Arr::get($this->options, 'listen_lock', false);
 			$this->listenLockFile     = Arr::get($this->options, 'listen_lock_file', null);
 			$this->listenLockTimeout  = Arr::get($this->options, 'listen_lock_timeout', 5);
+			$this->extendMessageDelay = Arr::get($this->options, 'extend_delay', false);
 
 			// create locks directory if no listen lock file specified
 			if ($this->listenLock && !$this->listenLockFile && !file_exists(storage_path('locks')))
@@ -79,7 +86,28 @@
 			return $this->messageWaitTimeout;
 		}
 
+		public function later($delay, $job, $data = '', $queue = null) {
 
+			// If the message delay should be extended and the delay is above SQS' maximum delay,
+			// we set job's notBefore timestamp and delay with maximum supported delay
+			if ($this->extendMessageDelay) {
+
+				$delaySeconds = $this->secondsUntil($delay);
+				if ($delaySeconds > self::SQS_MAX_MESSAGE_DELAY) {
+
+					$this->nextNotBefore = $this->currentTime() + $delaySeconds;
+
+					$delay = self::SQS_MAX_MESSAGE_DELAY;
+				}
+			}
+
+			try {
+				return parent::later($delay, $job, $data, $queue);
+			}
+			finally {
+				$this->nextNotBefore = null;
+			}
+		}
 
 
 		/**
@@ -222,6 +250,10 @@
             // we add some extra data to the payload
 			$payload['automaticQueueVisibility']      = $job->automaticQueueVisibility ?? true;
 			$payload['automaticQueueVisibilityExtra'] = $job->automaticQueueVisibilityExtra ?? 0;
+
+			// set job's not before timestamp
+			if ($this->nextNotBefore)
+				$payload['notBefore'] = $this->nextNotBefore;
 
             return $payload;
 		}

@@ -9,6 +9,7 @@
 	namespace MehrItLaraSqsExtTest\Cases\Unit\Queue\Jobs;
 
 
+	use Carbon\Carbon;
 	use MehrIt\LaraSqsExt\Queue\Jobs\SqsExtJob;
 	use stdClass;
 	use Mockery as m;
@@ -65,6 +66,38 @@
 			$handler->shouldReceive('fire')->once()->with($job, ['data']);
 			$job->fire();
 
+		}
+
+		public function testFireWaitsUntilNotBeforeTimestamp() {
+			$this->mockedSqsClient = $this->getMockBuilder(SqsClient::class)
+				->setMethods(['changeMessageVisibility'])
+				->disableOriginalConstructor()
+				->getMock();
+
+			Carbon::setTestNow(Carbon::now());
+
+			$ts = Carbon::now()->timestamp;
+
+			$job = $this->getJob(['timeout' => 15, 'notBefore' => $ts + 7]);
+			$job->getContainer()->shouldReceive('make')->never();
+			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 7]);
+			$job->fire();
+		}
+
+		public function testFireWaitsUntilNotBeforeTimestamp_maxVisibilityTimeoutReached() {
+			$this->mockedSqsClient = $this->getMockBuilder(SqsClient::class)
+				->setMethods(['changeMessageVisibility'])
+				->disableOriginalConstructor()
+				->getMock();
+
+			Carbon::setTestNow(Carbon::now());
+
+			$ts = Carbon::now()->timestamp;
+
+			$job = $this->getJob(['timeout' => 15, 'notBefore' => $ts + 99999]);
+			$job->getContainer()->shouldReceive('make')->never();
+			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 43200]);
+			$job->fire();
 		}
 
 		public function testFireSetsSqsVisibilityTimeout() {

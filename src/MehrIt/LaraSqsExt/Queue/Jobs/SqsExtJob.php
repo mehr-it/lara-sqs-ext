@@ -13,6 +13,9 @@
 
 	class SqsExtJob extends SqsJob
 	{
+		const SQS_MAX_VISIBILITY_TIMEOUT = 43200; // 12h (12 * 60 * 60s), see https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-quotas.html
+
+		public $notBefore = null;
 
 		/**
 		 * Sets the time the job remains invisible to other queue workers
@@ -32,6 +35,14 @@
 		 * @return void
 		 */
 		public function fire() {
+
+			// check if execution should still be delayed
+			$notBefore = $this->notBefore();
+			$ts = $this->currentTime();
+			if ($notBefore && $notBefore > $ts) {
+				$this->release(min($notBefore - $ts, self::SQS_MAX_VISIBILITY_TIMEOUT));
+				return;
+			}
 
 			// set SQS visibility timeout
 			if ($t = $this->getAutomaticVisibilityTimeout())
@@ -75,6 +86,14 @@
 		 */
 		public function automaticQueueVisibilityExtra() {
 			return $this->payload()['automaticQueueVisibilityExtra'] ?? 0;
+		}
+
+		/**
+		 * Gets the timestamp until which the job should be delayed
+		 * @return int|null The timestamp or null
+		 */
+		public function notBefore() {
+			return $this->payload()['notBefore'] ?? null;
 		}
 
 

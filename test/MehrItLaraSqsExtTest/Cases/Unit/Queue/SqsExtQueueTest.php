@@ -304,22 +304,61 @@
 
 		public function testDelayedPushWithDateTimeProperlyPushesJobOntoSqs() {
 			$now   = Carbon::now();
-			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'secondsUntil', 'getQueue'])->setConstructorArgs([$this->sqs, 'message_handler', $this->queueName, $this->account])->getMock();
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
 			$queue->expects($this->once())->method('createPayload')->with($this->mockedJob, $this->queueName, $this->mockedData)->will($this->returnValue($this->mockedPayload));
-			$queue->expects($this->once())->method('secondsUntil')->with($now)->will($this->returnValue(5));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
 			$this->sqs->shouldReceive('sendMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'MessageBody' => $this->mockedPayload, 'DelaySeconds' => 5])->andReturn($this->mockedSendMessageResponseModel);
 			$id = $queue->later($now->addSeconds(5), $this->mockedJob, $this->mockedData, $this->queueName);
 			$this->assertEquals($this->mockedMessageId, $id);
 		}
 
-		public function testDelayedPushProperlyPushesJobOntoSqs() {
-			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'secondsUntil', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
+		public function testDelayedPushWithDateTimeProperlyPushesJobOntoSqs_delayAboveLimitWithoutExtend() {
+
+			$now   = Carbon::now();
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
 			$queue->expects($this->once())->method('createPayload')->with($this->mockedJob, $this->queueName, $this->mockedData)->will($this->returnValue($this->mockedPayload));
-			$queue->expects($this->once())->method('secondsUntil')->with($this->mockedDelay)->will($this->returnValue($this->mockedDelay));
+			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+			$this->sqs->shouldReceive('sendMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'MessageBody' => $this->mockedPayload, 'DelaySeconds' => 915])->andReturn($this->mockedSendMessageResponseModel);
+			$id = $queue->later($now->addSeconds(915), $this->mockedJob, $this->mockedData, $this->queueName);
+			$this->assertEquals($this->mockedMessageId, $id);
+		}
+
+		public function testDelayedPushWithDateTimeProperlyPushesJobOntoSqs_delayAboveLimitWithExtend() {
+
+
+			$now   = Carbon::now();
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['extend_delay' => true]])->getMock();
+			$queue->expects($this->once())->method('createPayload')->with($this->mockedJob, $this->queueName, $this->mockedData)->will($this->returnValue($this->mockedPayload));
+			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+			$this->sqs->shouldReceive('sendMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'MessageBody' => $this->mockedPayload, 'DelaySeconds' => 900])->andReturn($this->mockedSendMessageResponseModel);
+			$id = $queue->later($now->addSeconds(915), $this->mockedJob, $this->mockedData, $this->queueName);
+			$this->assertEquals($this->mockedMessageId, $id);
+		}
+
+		public function testDelayedPushProperlyPushesJobOntoSqs() {
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
+			$queue->expects($this->once())->method('createPayload')->with($this->mockedJob, $this->queueName, $this->mockedData)->will($this->returnValue($this->mockedPayload));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
 			$this->sqs->shouldReceive('sendMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'MessageBody' => $this->mockedPayload, 'DelaySeconds' => $this->mockedDelay])->andReturn($this->mockedSendMessageResponseModel);
 			$id = $queue->later($this->mockedDelay, $this->mockedJob, $this->mockedData, $this->queueName);
+			$this->assertEquals($this->mockedMessageId, $id);
+		}
+
+		public function testDelayedPushProperlyPushesJobOntoSqs_delayAboveLimitWithoutExtend() {
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
+			$queue->expects($this->once())->method('createPayload')->with($this->mockedJob, $this->queueName, $this->mockedData)->will($this->returnValue($this->mockedPayload));
+			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+			$this->sqs->shouldReceive('sendMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'MessageBody' => $this->mockedPayload, 'DelaySeconds' => 915])->andReturn($this->mockedSendMessageResponseModel);
+			$id = $queue->later(915, $this->mockedJob, $this->mockedData, $this->queueName);
+			$this->assertEquals($this->mockedMessageId, $id);
+		}
+
+		public function testDelayedPushProperlyPushesJobOntoSqs_delayAboveLimitWithExtend() {
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['createPayload', 'getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['extend_delay' => true]])->getMock();
+			$queue->expects($this->once())->method('createPayload')->with($this->mockedJob, $this->queueName, $this->mockedData)->will($this->returnValue($this->mockedPayload));
+			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+			$this->sqs->shouldReceive('sendMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'MessageBody' => $this->mockedPayload, 'DelaySeconds' => 900])->andReturn($this->mockedSendMessageResponseModel);
+			$id = $queue->later(915, $this->mockedJob, $this->mockedData, $this->queueName);
 			$this->assertEquals($this->mockedMessageId, $id);
 		}
 
@@ -376,11 +415,134 @@
 					return false;
 				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
 					return false;
+				if (($messageBody['notBefore'] ?? null) !== null)
+					return false;
 
 
 				return true;
 			})->andReturn($this->mockedSendMessageResponseModel);
 			$queue->push($job);
+
+		}
+
+		public function testCreateObjectPayload_delayed() {
+
+			$this->expectNotToPerformAssertions();
+
+			$job = new TestExtQueueJob();
+
+			$queue = new SqsExtQueue($this->sqs, $this->queueUrl);
+			$this->sqs->shouldReceive('sendMessage')->once()->withArgs(function($args) use ($job) {
+				if ($args['QueueUrl'] != $this->queueUrl)
+					return false;
+
+				$messageBody = json_decode($args['MessageBody'], true);
+				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
+					return false;
+				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
+					return false;
+				if (($messageBody['notBefore'] ?? null) !== null)
+					return false;
+
+
+				return true;
+			})->andReturn($this->mockedSendMessageResponseModel);
+			$queue->later(5, $job);
+
+		}
+
+		public function testCreateObjectPayload_delayed_aboveLimitWithoutExtend() {
+
+			$this->expectNotToPerformAssertions();
+
+			$job = new TestExtQueueJob();
+
+			$queue = new SqsExtQueue($this->sqs, $this->queueUrl);
+			$this->sqs->shouldReceive('sendMessage')->once()->withArgs(function($args) use ($job) {
+				if ($args['QueueUrl'] != $this->queueUrl)
+					return false;
+
+				$messageBody = json_decode($args['MessageBody'], true);
+				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
+					return false;
+				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
+					return false;
+				if (($messageBody['notBefore'] ?? null) !== null)
+					return false;
+
+
+				return true;
+			})->andReturn($this->mockedSendMessageResponseModel);
+			$queue->later(915, $job);
+
+		}
+
+		public function testCreateObjectPayload_delayed_aboveLimitWithExtend() {
+
+
+			$this->expectNotToPerformAssertions();
+
+			$job = new TestExtQueueJob();
+
+			$queue = new SqsExtQueue($this->sqs, $this->queueUrl, '', ['extend_delay' => true]);
+			$this->sqs->shouldReceive('sendMessage')->once()->withArgs(function($args) use ($job) {
+				if ($args['QueueUrl'] != $this->queueUrl)
+					return false;
+
+				$messageBody = json_decode($args['MessageBody'], true);
+				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
+					return false;
+				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
+					return false;
+				if (($messageBody['notBefore'] ?? null) < Carbon::now()->addSeconds(912)->timestamp)
+					return false;
+
+
+				return true;
+			})->andReturn($this->mockedSendMessageResponseModel);
+			$queue->later(915, $job);
+
+		}
+
+		public function testCreateObjectPayload_notBeforeIsClearedAfterEachCall() {
+
+
+			$this->expectNotToPerformAssertions();
+
+			$job = new TestExtQueueJob();
+
+			$queue = new SqsExtQueue($this->sqs, $this->queueUrl, '', ['extend_delay' => true]);
+
+			$callCount = 0;
+			$this->sqs->shouldReceive('sendMessage')->withArgs(function($args) use ($job, &$callCount) {
+				if ($args['QueueUrl'] != $this->queueUrl)
+					return false;
+
+				$messageBody = json_decode($args['MessageBody'], true);
+				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
+					return false;
+				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
+					return false;
+
+
+				switch ($callCount++) {
+
+					case 0:
+						if (($messageBody['notBefore'] ?? null) < Carbon::now()->addSeconds(912)->timestamp)
+							return false;
+						break;
+
+					case 1:
+						if (($messageBody['notBefore'] ?? null) === null)
+							return false;
+						break;
+				}
+
+
+				return true;
+			})->andReturn($this->mockedSendMessageResponseModel);
+			$queue->later(915, $job);
+			$queue->later(5, $job);
 
 		}
 
