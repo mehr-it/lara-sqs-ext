@@ -228,7 +228,7 @@
 		protected function receiveMessage($queueUrl) {
 			$params = [
 				'QueueUrl'       => $queueUrl,
-				'AttributeNames' => ['ApproximateReceiveCount'],
+				'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp'],
 			];
 
 			// set wait time

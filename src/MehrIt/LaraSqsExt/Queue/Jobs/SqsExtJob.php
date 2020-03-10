@@ -9,6 +9,7 @@
 	namespace MehrIt\LaraSqsExt\Queue\Jobs;
 
 
+	use Carbon\Carbon;
 	use Illuminate\Queue\Jobs\SqsJob;
 
 	class SqsExtJob extends SqsJob
@@ -96,6 +97,29 @@
 			return $this->payload()['notBefore'] ?? null;
 		}
 
+		/**
+		 * Gets the messages sent timestamp as an integer representing the epoch time in milliseconds
+		 *
+		 * @return int|null
+		 */
+		public function sentTimestampMs(): ?int {
 
+			$ms = $this->job['Attributes']['SentTimestamp'] ?? null;
+
+			return $ms ? (int)$ms : null;
+		}
+
+		/**
+		 * Gets the message sent date
+		 * @return Carbon|null
+		 */
+		public function sentDate(): ?Carbon {
+
+			$ms = $this->sentTimestampMs();
+			if ($ms === null)
+				return null;
+
+			return Carbon::createFromTimestampMs($ms);
+		}
 
 	}

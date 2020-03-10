@@ -52,7 +52,7 @@
 				'MD5OfBody'     => md5($this->mockedPayload),
 				'ReceiptHandle' => $this->mockedReceiptHandle,
 				'MessageId'     => $this->mockedMessageId,
-				'Attributes'    => ['ApproximateReceiveCount' => 1],
+				'Attributes'    => ['ApproximateReceiveCount' => 1, 'SentTimestamp' => Carbon::now()->format('Uv')],
 			]);
 			$this->mockedReceiveMessageResponseModel      = new Result([
 				'Messages' => [
@@ -78,7 +78,7 @@
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
 			$queue->setContainer(m::mock(Container::class));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveMessageResponseModel);
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($this->mockedReceiveMessageResponseModel);
 			$result = $queue->pop($this->queueName);
 			$this->assertInstanceOf(SqsExtJob::class, $result);
 
@@ -88,7 +88,7 @@
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['message_wait_timeout' => 20]])->getMock();
 			$queue->setContainer(m::mock(Container::class));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount'], 'WaitTimeSeconds' => 20])->andReturn($this->mockedReceiveMessageResponseModel);
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp'], 'WaitTimeSeconds' => 20])->andReturn($this->mockedReceiveMessageResponseModel);
 			$result = $queue->pop($this->queueName);
 			$this->assertInstanceOf(SqsExtJob::class, $result);
 
@@ -98,7 +98,7 @@
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['listen_lock' => true]])->getMock();
 			$queue->setContainer(m::mock(Container::class));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveMessageResponseModel);
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($this->mockedReceiveMessageResponseModel);
 			$result = $queue->pop($this->queueName);
 			$this->assertInstanceOf(SqsExtJob::class, $result);
 
@@ -111,7 +111,7 @@
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['listen_lock' => true, 'listen_lock_file' => $lockFileName]])->getMock();
 			$queue->setContainer(m::mock(Container::class));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveMessageResponseModel);
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($this->mockedReceiveMessageResponseModel);
 			$result = $queue->pop($this->queueName);
 			$this->assertInstanceOf(SqsExtJob::class, $result);
 
@@ -142,7 +142,7 @@
 				$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['listen_lock' => true, 'listen_lock_file' => $lockFileName]])->getMock();
 				$queue->setContainer(m::mock(Container::class));
 				$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-				$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveMessageResponseModel);
+				$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($this->mockedReceiveMessageResponseModel);
 				$result = $queue->pop($this->queueName);
 				$this->assertInstanceOf(SqsExtJob::class, $result);
 
@@ -272,7 +272,7 @@
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, $queueOptions])->getMock();
 			$queue->setContainer(m::mock(Container::class));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveMessageResponseModel);
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($this->mockedReceiveMessageResponseModel);
 
 			app()->bind('my_job_type', function ($app, $params) use ($queue, $queueOptions, $job) {
 				$this->assertInstanceOf(Container::class, $params['container']);
@@ -296,7 +296,7 @@
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account])->getMock();
 			$queue->setContainer(m::mock(Container::class));
 			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
-			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount']])->andReturn($this->mockedReceiveEmptyMessageResponseModel);
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($this->mockedReceiveEmptyMessageResponseModel);
 			$result = $queue->pop($this->queueName);
 			$this->assertNull($result);
 		}

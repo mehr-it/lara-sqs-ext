@@ -9,6 +9,7 @@
 	namespace MehrItLaraSqsExtTest\Cases\Unit\Queue;
 
 
+	use Carbon\Carbon;
 	use Illuminate\Queue\InteractsWithQueue;
 	use MehrIt\LaraSqsExt\Queue\InteractsWithSqsQueue;
 	use MehrIt\LaraSqsExt\Queue\Jobs\SqsExtJob;
@@ -28,6 +29,21 @@
 
 			$cls->setJob($job);
 			$cls->setVisibilityTimeout(12);
+
+		}
+
+		public function testSentDate() {
+
+			$cls = new TestInteractsWithSqsQueueClass();
+
+			$dt = new Carbon();
+
+			$job = $this->getMockBuilder(SqsExtJob::class)->disableOriginalConstructor()->getMock();
+			$job->method('sentDate')
+				->willReturn($dt);
+
+			$cls->setJob($job);
+			$this->assertSame($dt, $cls->sentDate());
 
 		}
 

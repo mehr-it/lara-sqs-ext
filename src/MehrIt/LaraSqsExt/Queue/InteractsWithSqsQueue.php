@@ -9,6 +9,7 @@
 	namespace MehrIt\LaraSqsExt\Queue;
 
 
+	use Carbon\Carbon;
 	use MehrIt\LaraSqsExt\Queue\Jobs\SqsExtJob;
 
 	trait InteractsWithSqsQueue
@@ -19,11 +20,25 @@
 		 */
 		public function setVisibilityTimeout($time) {
 			/** @var SqsExtJob $job */
-			$job = isset($this->job) ? $this->job : null;
+			$job = $this->job ?? null;
 
 			if ($job && $job instanceof SqsExtJob) {
 
 				$job->setVisibilityTimeout($time);
 			}
+		}
+
+		/**
+		 * Gets the job's sent date
+		 * @return Carbon|null The job's sent date
+		 */
+		public function sentDate(): ?Carbon {
+			/** @var SqsExtJob $job */
+			$job = $this->job ?? null;
+
+			if (!$job || !($job instanceof SqsExtJob))
+				return null;
+
+			return $job->sentDate();
 		}
 	}

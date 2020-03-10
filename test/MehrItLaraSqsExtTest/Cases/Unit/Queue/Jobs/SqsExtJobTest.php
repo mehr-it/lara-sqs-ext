@@ -23,6 +23,8 @@
 
 
 		public function setUp() :void {
+			Carbon::setTestNow(Carbon::now());
+
 			$this->key          = 'AMAZONSQSKEY';
 			$this->secret       = 'AmAz0n+SqSsEcReT+aLpHaNuM3R1CsTr1nG';
 			$this->service      = 'sqs';
@@ -50,7 +52,7 @@
 				'MD5OfBody'     => md5($this->mockedPayload),
 				'ReceiptHandle' => $this->mockedReceiptHandle,
 				'MessageId'     => $this->mockedMessageId,
-				'Attributes'    => ['ApproximateReceiveCount' => 1],
+				'Attributes'    => ['ApproximateReceiveCount' => 1, 'SentTimestamp' => \Illuminate\Support\Carbon::now()->format('Uv')],
 			];
 		}
 
@@ -212,6 +214,24 @@
 			$job = $this->getJob();
 			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 13]);
 			$job->setVisibilityTimeout(13);
+		}
+
+		public function testGetSentTimestampMs() {
+
+			Carbon::setTestNow(Carbon::now());
+
+			$job = $this->getJob();
+			$this->assertEquals(Carbon::now()->setMicroseconds(Carbon::now()->milliseconds * 1000), Carbon::createFromTimestampMs($job->sentTimestampMs()));
+
+		}
+
+		public function testGetSentDate() {
+
+			Carbon::setTestNow(Carbon::now());
+
+			$job = $this->getJob();
+			$this->assertEquals(Carbon::now()->setMicroseconds(Carbon::now()->milliseconds * 1000), $job->sentDate());
+
 		}
 
 		protected function getJob($payloadMerge = []) {
