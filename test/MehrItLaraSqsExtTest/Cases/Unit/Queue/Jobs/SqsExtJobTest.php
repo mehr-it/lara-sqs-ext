@@ -221,7 +221,7 @@
 			Carbon::setTestNow(Carbon::now());
 
 			$job = $this->getJob();
-			$this->assertEquals(Carbon::now()->setMicroseconds(Carbon::now()->format('v') * 1000), Carbon::createFromTimestampMs($job->sentTimestampMs()));
+			$this->assertEquals(Carbon::createFromTimestampMs(Carbon::now()->format('Uv')), Carbon::createFromTimestampMs($job->sentTimestampMs()));
 
 		}
 
@@ -230,7 +230,7 @@
 			Carbon::setTestNow(Carbon::now());
 
 			$job = $this->getJob();
-			$this->assertEquals(Carbon::now()->setMicroseconds(Carbon::now()->format('v') * 1000), $job->sentDate());
+			$this->assertEquals(Carbon::createFromTimestampMs(Carbon::now()->format('Uv')), $job->sentDate());
 
 		}
 
