@@ -12,6 +12,7 @@
 
 	use Aws\Sqs\SqsClient;
 	use Illuminate\Contracts\Container\Container;
+	use Illuminate\Contracts\Encryption\Encrypter;
 	use Illuminate\Contracts\Queue\Job;
 	use Illuminate\Queue\Jobs\SqsJob;
 	use Illuminate\Queue\SqsQueue;
@@ -42,6 +43,10 @@
 
 		protected $nextNotBefore;
 
+		protected $encrypt;
+		
+		protected $crypt;
+
 		/**
 		 * Create a new Amazon SQS extended queue instance.
 		 *
@@ -60,6 +65,7 @@
 			$this->listenLockFile     = Arr::get($this->options, 'listen_lock_file', null);
 			$this->listenLockTimeout  = Arr::get($this->options, 'listen_lock_timeout', 5);
 			$this->extendMessageDelay = Arr::get($this->options, 'extend_delay', false);
+			$this->encrypt            = Arr::get($this->options, 'encrypt', false);
 
 			// create locks directory if no listen lock file specified
 			if ($this->listenLock && !$this->listenLockFile && !file_exists(storage_path('locks')))
@@ -138,6 +144,10 @@
 		 */
 		protected function makeJob(Container $container, SqsClient $sqs, array $job, $connectionName, $queue) {
 			$jobClass = Arr::get($this->options, 'job_type', static::DEFAULT_JOB_TYPE);
+
+			// decrypt if encryption is used
+			if ($this->encrypt)
+				$job['Body'] = $this->crypt()->decrypt($job['Body'], false);
 
 			/** @noinspection PhpUnhandledExceptionInspection */
 			return app()->make($jobClass, [
@@ -266,4 +276,29 @@
 		protected function processReceiveMessageParams(&$params) {
 
 		}
+
+		/**
+		 * @inheritDoc
+		 */
+		protected function createPayload($job, $queue, $data = '') {
+			$payload = parent::createPayload($job, $queue, $data);
+
+			// encrypt if configured to do so
+			if ($this->encrypt)
+				$payload = $this->crypt()->encrypt((string)$payload, false);
+
+			return $payload;
+		}
+
+		/**
+		 * Gets a crypto instance
+		 * @return Encrypter The crypto instance
+		 */
+		protected function crypt(): Encrypter {
+			if (!$this->crypt)
+				$this->crypt = app('encrypter');
+
+			return $this->crypt;
+		}
+
 	}

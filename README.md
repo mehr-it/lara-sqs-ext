@@ -103,6 +103,22 @@ The `listen_lock_timeout` value specifies how long the queue driver tries to obt
 before returning an empty reply to the worker loop. This value should not be too high, so that the
 worker regularly can check for restart and other signals. 
 
+## Message encryption
+If you want to encrypt any messages end-to-end, you can set the `encrypt` to `true` for your queue:
+
+    'sqs-conn' => [
+		'driver'  => 'sqs-ext',
+		'key'     => '112233445566778899',
+		'secret'  => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+		'prefix'  => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+		'queue'   => 'msgs',
+		'region'  => 'eu-central-1',
+		'encrypt' => true,
+	],
+	
+Laravel's internal encryption function will be used to encrypt the complete message string. Note
+that encryption uses Base64 encoding, which increases the message size by ~36%.
+
 ## Visibility timeout
 
 The visibility timeout is one of the key concepts in AWS SQS but is not well used in Laravel's default
@@ -114,6 +130,7 @@ For more information about visibility timeout see the [AWS documentation](https:
 
 If your jobs have a timeout, the SQS messages should be invisible to other subscribers exactly the
 same time. Unfortunately Laravel does not set it automatically.
+
 
 However **SqsExtJob automatically sets the visibility timeout of the SQS messages to the job
 timeout** if a timeout is specified.

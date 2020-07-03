@@ -84,6 +84,28 @@
 
 		}
 
+		public function testPopProperlyPopsJobOffOfSqs_encrypted() {
+
+			$result = new Result([
+				'Messages' => [
+					0 => [
+						'Body'          => encrypt($this->mockedPayload, false),
+						'MD5OfBody'     => md5($this->mockedPayload),
+						'ReceiptHandle' => $this->mockedReceiptHandle,
+						'MessageId'     => $this->mockedMessageId,
+					],
+				],
+			]);
+
+			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['encrypt' => true,]])->getMock();
+			$queue->setContainer(m::mock(Container::class));
+			$queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+			$this->sqs->shouldReceive('receiveMessage')->once()->with(['QueueUrl' => $this->queueUrl, 'AttributeNames' => ['ApproximateReceiveCount', 'SentTimestamp']])->andReturn($result);
+			$result = $queue->pop($this->queueName);
+			$this->assertInstanceOf(SqsExtJob::class, $result);
+
+		}
+
 		public function testPopUsesWaitTimeout() {
 			$queue = $this->getMockBuilder(SqsExtQueue::class)->setMethods(['getQueue'])->setConstructorArgs([$this->sqs, $this->queueName, $this->account, ['message_wait_timeout' => 20]])->getMock();
 			$queue->setContainer(m::mock(Container::class));
@@ -411,6 +433,32 @@
 					return false;
 
 				$messageBody = json_decode($args['MessageBody'], true);
+				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
+					return false;
+				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
+					return false;
+				if (($messageBody['notBefore'] ?? null) !== null)
+					return false;
+
+
+				return true;
+			})->andReturn($this->mockedSendMessageResponseModel);
+			$queue->push($job);
+
+		}
+
+		public function testCreateObjectPayload_encrypted() {
+
+			$this->expectNotToPerformAssertions();
+
+			$job = new TestExtQueueJob();
+
+			$queue = new SqsExtQueue($this->sqs, $this->queueUrl, '', ['encrypt' => true]);
+			$this->sqs->shouldReceive('sendMessage')->once()->withArgs(function($args) use ($job) {
+				if ($args['QueueUrl'] != $this->queueUrl)
+					return false;
+
+				$messageBody = json_decode(decrypt($args['MessageBody'], false), true);
 				if ($messageBody['automaticQueueVisibility'] != $job->automaticQueueVisibility)
 					return false;
 				if ($messageBody['automaticQueueVisibilityExtra'] != $job->automaticQueueVisibilityExtra)
