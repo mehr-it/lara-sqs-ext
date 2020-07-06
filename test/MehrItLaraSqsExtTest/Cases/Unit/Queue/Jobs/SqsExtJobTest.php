@@ -98,7 +98,7 @@
 
 			$job = $this->getJob(['timeout' => 15, 'notBefore' => $ts + 99999]);
 			$job->getContainer()->shouldReceive('make')->never();
-			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 43200]);
+			$job->getSqs()->expects($this->once())->method('changeMessageVisibility')->with(['QueueUrl' => $this->queueUrl, 'ReceiptHandle' => $this->mockedReceiptHandle, 'VisibilityTimeout' => 43199]);
 			$job->fire();
 		}
 

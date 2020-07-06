@@ -41,7 +41,7 @@
 			$notBefore = $this->notBefore();
 			$ts = $this->currentTime();
 			if ($notBefore && $notBefore > $ts) {
-				$this->release(min($notBefore - $ts, self::SQS_MAX_VISIBILITY_TIMEOUT));
+				$this->release(min($notBefore - $ts, self::SQS_MAX_VISIBILITY_TIMEOUT - 1 /* add 1 second safety margin */));
 				return;
 			}
 
