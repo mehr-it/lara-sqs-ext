@@ -127,7 +127,7 @@
 			else
 				$response = $this->receiveMessage($queue);
 
-			if (!is_null($response['Messages']) && count($response['Messages']) > 0)
+			if ($response && !is_null($response['Messages']) && count($response['Messages']) > 0)
 				return $this->makeJob($this->container, $this->sqs, $response['Messages'][0], $this->connectionName, $queue);
 
 			return null;
