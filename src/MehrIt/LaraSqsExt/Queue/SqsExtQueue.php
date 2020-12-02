@@ -11,6 +11,7 @@
 
 
 	use Aws\Sqs\SqsClient;
+	use ErrorException;
 	use Illuminate\Contracts\Container\Container;
 	use Illuminate\Contracts\Encryption\Encrypter;
 	use Illuminate\Contracts\Queue\Job;
@@ -173,10 +174,16 @@
 
 			$lockFile = $this->getListenLockFile($queueUrl);
 
+			$fp = null;
 			try {
-				$fp = fopen($lockFile, 'w+');
-				if ($fp === false)
-					throw new RuntimeException("Could not open queue listen lock file \"{$lockFile}\".");
+				try {
+					$fp = fopen($lockFile, 'w+');
+					if ($fp === false)
+						throw new RuntimeException("Could not open queue listen lock file \"{$lockFile}\".");
+				}
+				catch (ErrorException $ex) {
+					throw new RuntimeException("Could not open queue listen lock file \"{$lockFile}\".", 0, $ex);
+				}
 
 				// Here we set a timeout for flock which is used below. This way we return to the loop within
 				// an endless time and do not wait here forever blind for any external events
@@ -196,10 +203,20 @@
 
 				return $this->receiveMessage($queueUrl);
 			}
+			catch(RuntimeException $ex) {
+				report($ex);
+
+				$this->listenLock = false;
+				logger()->warning("Disabling listen lock for worker on {$queueUrl} due to previous error with locking file. Now running without listen lock.");
+
+				return null;
+			}
 			finally {
 				// close lock and file handle
-				@flock($fp, LOCK_UN);
-				@fclose($fp);
+				if ($fp !== null) {
+					@flock($fp, LOCK_UN);
+					@fclose($fp);
+				}
 			}
 
 		}
