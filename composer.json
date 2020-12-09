@@ -10,13 +10,13 @@
     }
   ],
   "autoload": {
-    "psr-0": {
-      "": "src/"
+    "psr-4": {
+      "MehrIt\\LaraSqsExt\\": "src/"
     }
   },
   "autoload-dev": {
-    "psr-0": {
-      "": "test/"
+    "psr-4": {
+      "MehrItLaraSqsExtTest\\": "test/"
     }
   },
   "require": {

@@ -20,11 +20,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6a8979a6-4406-4723-b497-dc404ff2a77a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test-bootstrap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/lara-sqs-ext.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lara-sqs-ext.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/phpunit.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MehrIt/LaraSqsExt/Provider/SqsExtServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Provider/SqsExtServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MehrIt/LaraSqsExt/Queue/Connectors/SqsExtConnector.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue/Connectors/SqsExtConnector.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MehrIt/LaraSqsExt/Queue/InteractsWithSqsQueue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue/InteractsWithSqsQueue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MehrIt/LaraSqsExt/Queue/Jobs/SqsExtJob.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue/Jobs/SqsExtJob.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MehrIt/LaraSqsExt/Queue/SqsExtQueue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue/SqsExtQueue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/TestCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases/Unit/Queue/Connectors/SqsExtConnectorTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/Connectors/SqsExtConnectorTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases/Unit/Queue/InteractsWithSqsQueueTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/InteractsWithSqsQueueTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases/Unit/Queue/Jobs/SqsExtJobTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/Jobs/SqsExtJobTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases/Unit/Queue/SqsExtQueueTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsExtQueueTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -132,8 +141,8 @@
       <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
       <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
-      <path value="$PROJECT_DIR$/vendor/fakerphp/faker" />
-      <path value="$PROJECT_DIR$/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
       <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
       <path value="$PROJECT_DIR$/vendor/symfony/debug" />
     </include_path>
@@ -159,12 +168,16 @@
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="RunManager" selected="Multirun.All">
@@ -190,7 +203,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:5.8.* orchestra/testbench:3.8.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.3 - Laravel 6" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -202,7 +215,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:6.* orchestra/testbench:4.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.3 - Laravel 7" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -214,7 +227,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:7.* orchestra/testbench:5.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.3 - Laravel 8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -226,7 +239,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:8.* orchestra/testbench:6.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.4 - Laravel 5.8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -238,7 +251,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:5.8.* orchestra/testbench:3.8.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.4 - Laravel 6" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -250,7 +263,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:6.* orchestra/testbench:4.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.4 - Laravel 7" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -262,7 +275,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:7.* orchestra/testbench:5.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 7.4 - Laravel 8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -274,7 +287,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:8.* orchestra/testbench:6.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 8.0 - Laravel 7" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -286,7 +299,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:7.* orchestra/testbench:5.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="PHP 8.0 - Laravel 8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -298,7 +311,7 @@
           <env name="TEST_PACKAGES" value="laravel/framework:8.* orchestra/testbench:6.*" />
         </envs>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -307,7 +320,7 @@
           <option name="interpreterName" value="Homestead PHP 8.0" />
         </PhpTestInterpreterSettings>
       </CommandLine>
-      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <list>
@@ -386,7 +399,7 @@
       <workItem from="1596325780747" duration="84000" />
       <workItem from="1596326157976" duration="2413000" />
       <workItem from="1606905597851" duration="2616000" />
-      <workItem from="1607497377974" duration="1007000" />
+      <workItem from="1607497377974" duration="2346000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1546628668062</created>
@@ -556,7 +569,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606906178783</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="support laravel 8">
+      <created>1607498437248</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1607498437248</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -612,6 +632,11 @@
     <MESSAGE value="Add safety margin when delaying over max visibility timeout" />
     <MESSAGE value="FIX: avoid error after queue restart with php 7.4" />
     <MESSAGE value="automatically disable listen lock, when lock file is not accessible" />
-    <option name="LAST_COMMIT_MESSAGE" value="automatically disable listen lock, when lock file is not accessible" />
+    <MESSAGE value="support laravel 8" />
+    <option name="LAST_COMMIT_MESSAGE" value="support laravel 8" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
