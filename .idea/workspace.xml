@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6a8979a6-4406-4723-b497-dc404ff2a77a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/test-bootstrap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/phpunit.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="ComposerSettings" doNotAsk="true">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="Homestead - LaraSqsExt">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/orchestra/testbench-core" />
+      <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/vendor/aws/aws-sdk-php" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/vendor/dragonmantank/cron-expression" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
+      <path value="$PROJECT_DIR$/vendor/tijsverkoyen/css-to-inline-styles" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/vendor/opis/closure" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/vendor/mtdowling/jmespath.php" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-iconv" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/service-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/mime" />
+      <path value="$PROJECT_DIR$/vendor/orchestra/testbench" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-client" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/vendor/league/mime-type-detection" />
+      <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-normalizer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/error-handler" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-client-contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/fakerphp/faker" />
+      <path value="$PROJECT_DIR$/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="1RtQZOiFMoJfcCTLJOyECJjyX0a" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Multirun.All">
+    <configuration name="All" type="Multirun" factoryName="Multirun" separateTabs="false" reuseTabsWithFailures="true" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="0.0">
+      <runConfiguration name="PHP 7.3 - Laravel 5.8" type="PHPUnit" />
+      <runConfiguration name="PHP 7.3 - Laravel 6" type="PHPUnit" />
+      <runConfiguration name="PHP 7.3 - Laravel 7" type="PHPUnit" />
+      <runConfiguration name="PHP 7.3 - Laravel 8" type="PHPUnit" />
+      <runConfiguration name="PHP 7.4 - Laravel 5.8" type="PHPUnit" />
+      <runConfiguration name="PHP 7.4 - Laravel 6" type="PHPUnit" />
+      <runConfiguration name="PHP 7.4 - Laravel 7" type="PHPUnit" />
+      <runConfiguration name="PHP 7.4 - Laravel 8" type="PHPUnit" />
+      <runConfiguration name="PHP 8.0 - Laravel 7" type="PHPUnit" />
+      <runConfiguration name="PHP 8.0 - Laravel 8" type="PHPUnit" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.3 - Laravel 5.8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.3" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:5.8.* orchestra/testbench:3.8.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.3 - Laravel 6" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.3" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:6.* orchestra/testbench:4.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.3 - Laravel 7" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.3" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:7.* orchestra/testbench:5.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.3 - Laravel 8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.3" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:8.* orchestra/testbench:6.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.4 - Laravel 5.8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.4" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:5.8.* orchestra/testbench:3.8.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.4 - Laravel 6" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.4" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:6.* orchestra/testbench:4.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.4 - Laravel 7" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.4" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:7.* orchestra/testbench:5.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 7.4 - Laravel 8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 7.4" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:8.* orchestra/testbench:6.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 8.0 - Laravel 7" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 8.0" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:7.* orchestra/testbench:5.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PHP 8.0 - Laravel 8" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 8.0" />
+        </PhpTestInterpreterSettings>
+        <envs>
+          <env name="TEST_PACKAGES" value="laravel/framework:8.* orchestra/testbench:6.*" />
+        </envs>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 8.0" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/MehrItLaraSqsExtTest/Cases" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Multirun.All" />
+      <item itemvalue="PHPUnit.PHP 7.3 - Laravel 5.8" />
+      <item itemvalue="PHPUnit.PHP 7.3 - Laravel 6" />
+      <item itemvalue="PHPUnit.PHP 7.3 - Laravel 7" />
+      <item itemvalue="PHPUnit.PHP 7.3 - Laravel 8" />
+      <item itemvalue="PHPUnit.PHP 7.4 - Laravel 5.8" />
+      <item itemvalue="PHPUnit.PHP 7.4 - Laravel 6" />
+      <item itemvalue="PHPUnit.PHP 7.4 - Laravel 7" />
+      <item itemvalue="PHPUnit.PHP 7.4 - Laravel 8" />
+      <item itemvalue="PHPUnit.PHP 8.0 - Laravel 7" />
+      <item itemvalue="PHPUnit.PHP 8.0 - Laravel 8" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6a8979a6-4406-4723-b497-dc404ff2a77a" name="Default Changelist" comment="" />
+      <created>1546618889350</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1546618889350</updated>
+      <workItem from="1546618890498" duration="9624000" />
+      <workItem from="1546836667373" duration="16031000" />
+      <workItem from="1548712830906" duration="3649000" />
+      <workItem from="1549949697479" duration="597000" />
+      <workItem from="1550050091283" duration="882000" />
+      <workItem from="1550470066479" duration="43000" />
+      <workItem from="1551773881940" duration="1886000" />
+      <workItem from="1552048031893" duration="599000" />
+      <workItem from="1552297728015" duration="595000" />
+      <workItem from="1552481783432" duration="598000" />
+      <workItem from="1552989487964" duration="599000" />
+      <workItem from="1553126319789" duration="2063000" />
+      <workItem from="1553844662428" duration="598000" />
+      <workItem from="1554230570647" duration="1956000" />
+      <workItem from="1554448872633" duration="599000" />
+      <workItem from="1554653430030" duration="598000" />
+      <workItem from="1554711696327" duration="599000" />
+      <workItem from="1554794345076" duration="598000" />
+      <workItem from="1555053754149" duration="599000" />
+      <workItem from="1555315091947" duration="599000" />
+      <workItem from="1556088499875" duration="54000" />
+      <workItem from="1559769010673" duration="4984000" />
+      <workItem from="1561672020098" duration="57000" />
+      <workItem from="1563049580366" duration="14134000" />
+      <workItem from="1564526130659" duration="809000" />
+      <workItem from="1570483968749" duration="8634000" />
+      <workItem from="1571124991942" duration="31000" />
+      <workItem from="1571686739260" duration="2768000" />
+      <workItem from="1571903791440" duration="6574000" />
+      <workItem from="1573464328622" duration="609000" />
+      <workItem from="1580498251073" duration="613000" />
+      <workItem from="1580730719813" duration="4241000" />
+      <workItem from="1581322703208" duration="599000" />
+      <workItem from="1581331425212" duration="6000" />
+      <workItem from="1582536633081" duration="7669000" />
+      <workItem from="1583827791041" duration="6144000" />
+      <workItem from="1584280366699" duration="38000" />
+      <workItem from="1587042623029" duration="3942000" />
+      <workItem from="1587328264545" duration="18000" />
+      <workItem from="1593028930046" duration="911000" />
+      <workItem from="1593367386483" duration="1310000" />
+      <workItem from="1593602324700" duration="599000" />
+      <workItem from="1593815811014" duration="22000" />
+      <workItem from="1593815912362" duration="4738000" />
+      <workItem from="1594061696519" duration="599000" />
+      <workItem from="1594497307253" duration="1198000" />
+      <workItem from="1595249323260" duration="3000" />
+      <workItem from="1596197038395" duration="2126000" />
+      <workItem from="1596325780747" duration="84000" />
+      <workItem from="1596326157976" duration="2413000" />
+      <workItem from="1606905597851" duration="2616000" />
+      <workItem from="1607497377974" duration="1007000" />
+    </task>
+    <task id="LOCAL-00001" summary="initial commit">
+      <created>1546628668062</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1546628668062</updated>
+    </task>
+    <task id="LOCAL-00002" summary="added visibility timeout management">
+      <created>1546847732872</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1546847732872</updated>
+    </task>
+    <task id="LOCAL-00003" summary="moved visibility timeout management to jobs instead ob SqsExtJob class">
+      <created>1546855249370</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1546855249370</updated>
+    </task>
+    <task id="LOCAL-00004" summary="InteractsWithSqsQueue trait checks for presence of SqsJob before calling setVisibilityTimeout">
+      <created>1548713120158</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1548713120158</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Added listen locks">
+      <created>1563165960095</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1563165960095</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added timeout for listen locks, so waiting process do not block for long time">
+      <created>1570537617015</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1570537617015</updated>
+    </task>
+    <task id="LOCAL-00007" summary="FIX: pcntl extension is now only required for workers">
+      <created>1571686850520</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1571686850520</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added travis config">
+      <created>1572122141668</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1572122141668</updated>
+    </task>
+    <task id="LOCAL-00009" summary="add package suggestions">
+      <created>1572122375890</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1572122375890</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Updated PHP unit file">
+      <created>1572122585650</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1572122585650</updated>
+    </task>
+    <task id="LOCAL-00011" summary="removed --prefer-lowest tests, which are broken anyways">
+      <created>1572123507442</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1572123507442</updated>
+    </task>
+    <task id="LOCAL-00012" summary="require at least laravel 5.7">
+      <created>1572123885960</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1572123885960</updated>
+    </task>
+    <task id="LOCAL-00013" summary="FIX: removed lowest test and removed deprecated assertArraySubset() from tests">
+      <created>1572125314395</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1572125314395</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added status images to readme">
+      <created>1572125496134</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1572125496134</updated>
+    </task>
+    <task id="LOCAL-00015" summary="added support for extended job delay">
+      <created>1582543107079</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1582543107079</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fetch SQS message SentTimestamp">
+      <created>1583830789958</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1583830789958</updated>
+    </task>
+    <task id="LOCAL-00017" summary="FIX: job test failed with Laravel 5.7">
+      <created>1583831533059</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1583831533059</updated>
+    </task>
+    <task id="LOCAL-00018" summary="FIX: job test failed with Laravel 5.7">
+      <created>1583837252568</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1583837252568</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added encryption option">
+      <created>1593817961975</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1593817961975</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Added travis tests for php7.4 and laravel 7">
+      <created>1593818204001</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1593818204001</updated>
+    </task>
+    <task id="LOCAL-00021" summary="FIX: invalid test configuration">
+      <created>1593818621451</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1593818621451</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Add safety margin when delaying over max visibility timeout">
+      <created>1594041752648</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1594041752648</updated>
+    </task>
+    <task id="LOCAL-00023" summary="FIX: avoid error after queue restart with php 7.4">
+      <created>1596197405102</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1596197405102</updated>
+    </task>
+    <task id="LOCAL-00024" summary="automatically disable listen lock, when lock file is not accessible">
+      <created>1606906178783</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1606906178783</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial commit" />
+    <MESSAGE value="added visibility timeout management" />
+    <MESSAGE value="moved visibility timeout management to jobs instead ob SqsExtJob class" />
+    <MESSAGE value="InteractsWithSqsQueue trait checks for presence of SqsJob before calling setVisibilityTimeout" />
+    <MESSAGE value="Added listen locks" />
+    <MESSAGE value="Added timeout for listen locks, so waiting process do not block for long time" />
+    <MESSAGE value="FIX: pcntl extension is now only required for workers" />
+    <MESSAGE value="Added travis config" />
+    <MESSAGE value="add package suggestions" />
+    <MESSAGE value="Updated PHP unit file" />
+    <MESSAGE value="removed --prefer-lowest tests, which are broken anyways" />
+    <MESSAGE value="require at least laravel 5.7" />
+    <MESSAGE value="FIX: removed lowest test and removed deprecated assertArraySubset() from tests" />
+    <MESSAGE value="added status images to readme" />
+    <MESSAGE value="added support for extended job delay" />
+    <MESSAGE value="Fetch SQS message SentTimestamp" />
+    <MESSAGE value="FIX: job test failed with Laravel 5.7" />
+    <MESSAGE value="Added encryption option" />
+    <MESSAGE value="Added travis tests for php7.4 and laravel 7" />
+    <MESSAGE value="FIX: invalid test configuration" />
+    <MESSAGE value="Add safety margin when delaying over max visibility timeout" />
+    <MESSAGE value="FIX: avoid error after queue restart with php 7.4" />
+    <MESSAGE value="automatically disable listen lock, when lock file is not accessible" />
+    <option name="LAST_COMMIT_MESSAGE" value="automatically disable listen lock, when lock file is not accessible" />
+  </component>
+</project>
