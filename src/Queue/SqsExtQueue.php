@@ -10,6 +10,7 @@
 	namespace MehrIt\LaraSqsExt\Queue;
 
 
+	use Aws\Sqs\Exception\SqsException;
 	use Aws\Sqs\SqsClient;
 	use ErrorException;
 	use Illuminate\Contracts\Container\Container;
@@ -45,8 +46,26 @@
 		protected $nextNotBefore;
 
 		protected $encrypt;
-		
+
 		protected $crypt;
+		
+		protected $queueThrottles;
+
+		protected $queueListUpdateInterval;
+
+		protected $noQueueAvailableSleep;
+
+		/**
+		 * @var SqsQueueSelector
+		 */
+		protected $queueSelector;
+
+		protected $queueCacheStore;
+
+		protected $queueCachePrefix;
+
+		protected $queuePauseTime;
+
 
 		/**
 		 * Create a new Amazon SQS extended queue instance.
@@ -61,12 +80,19 @@
 
 			$this->options = $options;
 
-			$this->messageWaitTimeout = Arr::get($this->options, 'message_wait_timeout', null);
-			$this->listenLock         = (bool)Arr::get($this->options, 'listen_lock', false);
-			$this->listenLockFile     = Arr::get($this->options, 'listen_lock_file', null);
-			$this->listenLockTimeout  = Arr::get($this->options, 'listen_lock_timeout', 5);
-			$this->extendMessageDelay = Arr::get($this->options, 'extend_delay', false);
-			$this->encrypt            = Arr::get($this->options, 'encrypt', false);
+			$this->messageWaitTimeout      = Arr::get($this->options, 'message_wait_timeout');
+			$this->listenLock              = (bool)Arr::get($this->options, 'listen_lock', false);
+			$this->listenLockFile          = Arr::get($this->options, 'listen_lock_file', null);
+			$this->listenLockTimeout       = Arr::get($this->options, 'listen_lock_timeout', 5);
+			$this->extendMessageDelay      = Arr::get($this->options, 'extend_delay', false);
+			$this->encrypt                 = Arr::get($this->options, 'encrypt', false);
+			$this->queueThrottles          = Arr::get($this->options, 'throttles', []);
+			$this->noQueueAvailableSleep   = Arr::get($this->options, 'no_queue_available_sleep', 1);
+			$this->queueListUpdateInterval = Arr::get($this->options, 'queue_list_update_interval', 60);
+			$this->queueCacheStore         = Arr::get($this->options, 'cache');
+			$this->queueCachePrefix        = Arr::get($this->options, 'cache_prefix', 'sqs');
+			$this->queuePauseTime          = Arr::get($this->options, 'queue_pause_time', 20);
+
 
 			// create locks directory if no listen lock file specified
 			if ($this->listenLock && !$this->listenLockFile && !file_exists(storage_path('locks')))
@@ -75,6 +101,9 @@
 			// remember last queue restart timestamp
 			if ($this->listenLock)
 				$this->lastQueueRestart = $this->getTimestampOfLastQueueRestart();
+
+
+			
 		}
 
 		/**
@@ -94,7 +123,7 @@
 		}
 
 		public function later($delay, $job, $data = '', $queue = null) {
-
+			
 			// If the message delay should be extended and the delay is above SQS' maximum delay,
 			// we set job's notBefore timestamp and delay with maximum supported delay
 			if ($this->extendMessageDelay) {
@@ -113,7 +142,21 @@
 			}
 			finally {
 				$this->nextNotBefore = null;
+				
+				$this->queueSelector()->wake($queue ?: $this->default);
 			}
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function pushRaw($payload, $queue = null, array $options = []) {
+			
+			$ret = parent::pushRaw($payload, $queue, $options);
+
+			$this->queueSelector()->wake($queue ?: $this->default);
+			
+			return $ret;
 		}
 
 
@@ -121,15 +164,45 @@
 		 * @inheritdoc
 		 */
 		public function pop($queue = null) {
-			$queue = $this->getQueue($queue);
+						
+			// Select a queue. The queue selector handles a single queue name as well as wildcards.
+			$queue = $this->queueSelector()->selectQueue($queue);
 
-			if ($this->listenLock)
-				$response = $this->receiveMessageWithLock($queue);
-			else
-				$response = $this->receiveMessage($queue);
+			if ($queue !== null) {
+				
+				$queueUrl = $this->getQueue($queue);
 
-			if ($response && !is_null($response['Messages']) && count($response['Messages']) > 0)
-				return $this->makeJob($this->container, $this->sqs, $response['Messages'][0], $this->connectionName, $queue);
+				// Get the last wake. We need it later, when we eventually pause the queue.
+				$lastWake = $this->queueSelector()->lastWake($queue);
+				
+				try {
+					if ($this->listenLock)
+						$response = $this->receiveMessageWithLock($queueUrl);
+					else
+						$response = $this->receiveMessage($queueUrl);
+				}
+				catch(SqsException $ex) {
+					
+					// if we tried to select from a non-existent queue, we should update our queue list
+					if ($ex->getAwsErrorCode() === 'AWS.SimpleQueueService.NonExistentQueue')
+						$this->queueSelector()->clearQueueListCache();
+					
+					throw $ex;
+				}
+
+				if ($response && !is_null($response['Messages']) && count($response['Messages']) > 0)
+					return $this->makeJob($this->container, $this->sqs, $response['Messages'][0], $this->connectionName, $queueUrl);
+
+				// No job is available. We try to pause the queue for a certain amount of time, to prevent
+				// unnecessary API requests
+				$this->queueSelector()->pauseQueue($lastWake, $queue);
+			}
+			else {
+				// no queue available
+
+				// we wait some time, to give queues a chance to become available again
+				sleep($this->noQueueAvailableSleep ?: 1);
+			}
 
 			return null;
 		}/** @noinspection PhpDocMissingThrowsInspection */
@@ -148,7 +221,7 @@
 
 			// decrypt if encryption is used
 			if ($this->encrypt)
-				$job['Body'] = $this->crypt()->decrypt($job['Body'], false);
+				$job['Body'] = $this->crypt()->decryptString($job['Body']);
 
 			/** @noinspection PhpUnhandledExceptionInspection */
 			return app()->make($jobClass, [
@@ -187,7 +260,8 @@
 
 				// Here we set a timeout for flock which is used below. This way we return to the loop within
 				// an endless time and do not wait here forever blind for any external events
-				pcntl_signal(SIGALRM, function() {});
+				pcntl_signal(SIGALRM, function () {
+				});
 				pcntl_alarm($this->listenLockTimeout);
 
 				// Wait for lock file access. This might be interrupted by the alarm signal an return false. In this case
@@ -203,7 +277,7 @@
 
 				return $this->receiveMessage($queueUrl);
 			}
-			catch(RuntimeException $ex) {
+			catch (RuntimeException $ex) {
 				report($ex);
 
 				$this->listenLock = false;
@@ -271,10 +345,10 @@
 		/**
 		 * @inheritdoc
 		 */
-		protected function createObjectPayload($job, $queue){
-            $payload = parent::createObjectPayload($job, $queue);
+		protected function createObjectPayload($job, $queue) {
+			$payload = parent::createObjectPayload($job, $queue);
 
-            // we add some extra data to the payload
+			// we add some extra data to the payload
 			$payload['automaticQueueVisibility']      = $job->automaticQueueVisibility ?? true;
 			$payload['automaticQueueVisibilityExtra'] = $job->automaticQueueVisibilityExtra ?? 0;
 
@@ -282,7 +356,7 @@
 			if ($this->nextNotBefore)
 				$payload['notBefore'] = $this->nextNotBefore;
 
-            return $payload;
+			return $payload;
 		}
 
 
@@ -293,6 +367,24 @@
 		protected function processReceiveMessageParams(&$params) {
 
 		}
+		
+		public function queueSelector(): SqsQueueSelector {
+			if (!$this->queueSelector) {
+				$this->queueSelector = $this->container->make(SqsQueueSelector::class, [
+					'sqs'                     => $this->sqs,
+					'throttles'               => $this->queueThrottles,
+					'queueListUpdateInterval' => $this->queueListUpdateInterval ?: 20,
+					'cache'                   => $this->queueCacheStore,
+					'cachePrefix'             => $this->queueCachePrefix,
+					// disable queue pausing, if long-polling is active
+					'queuePauseTime'          => !$this->messageWaitTimeout ? $this->queuePauseTime : 0,
+				]);
+
+				$this->queueSelector->setContainer($this->container);
+			}
+			
+			return $this->queueSelector;
+		}
 
 		/**
 		 * @inheritDoc
@@ -302,7 +394,7 @@
 
 			// encrypt if configured to do so
 			if ($this->encrypt)
-				$payload = $this->crypt()->encrypt((string)$payload, false);
+				$payload = $this->crypt()->encryptString((string)$payload);
 
 			return $payload;
 		}
@@ -313,7 +405,7 @@
 		 */
 		protected function crypt(): Encrypter {
 			if (!$this->crypt)
-				$this->crypt = app('encrypter');
+				$this->crypt = $this->container->make('encrypter');
 
 			return $this->crypt;
 		}

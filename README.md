@@ -162,6 +162,131 @@ worker processes will stop running after that amount of time!**
 The `InteractsWithSqsQueue` trait implements the `setVisibilityTimeout` method, as the `InteractsWithQueue`
 trait does for other methods.
 
+## Rate limiting
+You may configure rate limiting for your queues by passing a throttle in your
+queue config. It uses the ["Token bucket" algorithm]([https://en.wikipedia.org/wiki/Token_bucket)
+implemented by [mehr-it/lara-token-bucket](https://github.com/mehr-it/lara-token-bucket).
+
+**For rate-limiting to work correctly in distributed systems, a centralized cache is required.**
+
+```php
+'sqs-conn' => [
+    'driver'    => 'sqs-ext',
+    'key'       => '112233445566778899',
+    'secret'    => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'prefix'    => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+    'queue'     => 'msgs',
+    'region'    => 'eu-central-1',
+    'cache'     => 'the-centralized-cache',
+    'throttles'=> [
+        // queue name or wildcard as key
+        'msgs' => [
+            // the number of tokens added per second
+            'rate'  => 0.5,
+            // the maximum number of tokens in the bucket
+            'burst' => 4,
+            // the initial number of tokens in the bucket
+            'initial' => 0,        
+        ]       
+    ]
+],
+```
+
+If working with multiples queues per connection or if you are using wildcards
+in queue workers, you may specify a throttle for each queue. Throttles even
+support wildcards, which means that you may apply a throttle config to each
+queue which matches a wildcard:
+
+```php
+'sqs-conn' => [
+    'driver'    => 'sqs-ext',
+    'key'       => '112233445566778899',
+    'secret'    => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'prefix'    => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+    'queue'     => 'apiQueue1',
+    'region'    => 'eu-central-1',
+    // use a centralized cache
+    'cache'     => 'the-centralized-cache',
+    'throttles' => [
+        // queue name or wildcard as key
+        'apiQueue*' => [
+            // the number of tokens added per second
+            'rate'  => 0.5,
+            // the maximum number of tokens in the bucket
+            'burst' => 4,     
+        ]       
+    ]
+],
+```
+Even if using a wildcard, each queue is throttled individually. However, you
+may pass the `bucketName` option, to explicitly specify a shared token bucket
+for multiple queues.
+
+
+## Wildcard queue workers
+When starting workers, laravel natively allows specifying which queues the 
+worker should work on. Even though, multiple queue names can be given, workers
+don't behave very smart when dealing with multiple queues.
+
+This package allows to pass a wildcard as "queue" to workers:
+
+```shell
+# you should set sleep to zero, to efficiently switch between queues
+./artisan queue:work sqs-conn --queue=apiQueue* --sleep=0
+``` 
+
+Given the example above, the worker will fetch the list of all available
+queues starting with "apiQueue" and will poll them one after another for
+new messages. But when selecting the next queue to poll, it takes to 
+following into account:
+
+### Throttled queues
+
+If a queue is to be throttled due to rate-limits, it is not polled
+until quota is available again.
+
+### Empty queues
+
+If a queue did not return a message on last poll, **polling is paused** on this
+until either a new job is sent or the pause timeout elapses. The pause time
+can be configured within the queue config.
+This prevents your worker from wasting time with empty queues while other
+queues are full.
+
+Resuming paused workers on job sending is implemented using cache. **So 
+centralized cache is crucial for distributed systems.**
+
+**See following configuration example for a suitable configuration to be used
+with wildcard workers**:
+
+```php
+'sqs-conn' => [
+    'driver'                     => 'sqs-ext',
+    'key'                        => '112233445566778899',
+    'secret'                     => 'xxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'prefix'                     => 'https://sqs.eu-central-1.amazonaws.com/11223344556677',
+    'queue'                      => 'apiQueue1',
+    'region'                     => 'eu-central-1',
+    // Long polling must not be used with wildcard workers, as this disables
+    // queue pausing which is more efficient than long polling when working
+    // on multiple queues. 
+    'message_wait_timeout'       => 0,
+    // use a centralized cache
+    'cache'                      => 'the-centralized-cache',
+    // interval for regular queue list updates (in seconds) 
+    'throttles' => [
+        /* define throttles here */
+    ],   
+    'queue_list_update_interval' => 60,
+    // Maximum pause time, for empty queues (in seconds).
+    // This value must not be too high, since delayed or in-the-flight
+    // messages are not visible. The queue might look empty but will
+    // have available messages later without the worker pause being aborted.
+    'queue_pause_time'           => 20,
+],
+```
+
+
 ## Extending
 
 The classes in this library offer good entry points for extending the classes. Have a look

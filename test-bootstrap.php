@@ -19,7 +19,7 @@
 	}
 	else {
 		echo "Using default composer.json\n";
-		exec("cd '" . __DIR__ . "' && && composer update --with-all-dependencies && composer dump-autoload", $output, $returnVar);
+		exec("cd '" . __DIR__ . "' && composer update --with-all-dependencies && composer dump-autoload", $output, $returnVar);
 	}
 
 	echo implode("\n", $output) . "\n";
