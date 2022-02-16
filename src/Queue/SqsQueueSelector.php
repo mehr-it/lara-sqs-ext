@@ -320,9 +320,13 @@
 					$throttleExp === $queueName ||
 					(substr($throttleExp, -1) === '*' && strncmp($throttleExp, $queueName, strlen($throttleExp) - 1) === 0)
 				) {
+					
+					$bucketName = "sqs{$queueName}";
+					if (($throttle['bucketName'] ?? null) !== null)
+						$bucketName = str_replace('{queueName}', $queueName, $throttle['bucketName']);					
 
 					return $this->tokenBucketManager()->bucket(
-						($throttle['bucketName'] ?? null) ?: "sqs{$queueName}",
+						$bucketName,
 						$throttle['rate'],
 						$throttle['burst'],
 						($throttle['initial'] ?? 0) ?: 0,
