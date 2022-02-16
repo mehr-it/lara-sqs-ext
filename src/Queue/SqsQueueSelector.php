@@ -6,7 +6,6 @@
 	use Carbon\Carbon;
 	use Illuminate\Cache\CacheManager;
 	use Illuminate\Contracts\Container\Container;
-	use Illuminate\Contracts\Foundation\Application;
 	use MehrIt\LaraTokenBucket\TokenBucket;
 	use MehrIt\LaraTokenBucket\TokenBucketManager;
 
@@ -27,7 +26,7 @@
 		protected $prefixQueueList = [];
 
 		/**
-		 * @var int[][] The timestamps when a prefix queue list was last updated 
+		 * @var int[][] The timestamps when a prefix queue list was last updated
 		 */
 		protected $prefixQueueListUpdatedAt = [];
 
@@ -47,7 +46,7 @@
 		protected $queuePauseTime;
 
 		/**
-		 * @var int[] Timestamps when a queue was last selected. Queue name as key. (in milliseconds) 
+		 * @var int[] Timestamps when a queue was last selected. Queue name as key. (in milliseconds)
 		 */
 		protected $lastSelectedTimestamps = [];
 
@@ -122,8 +121,7 @@
 		public function getQueueListUpdateInterval(): int {
 			return $this->queueListUpdateInterval;
 		}
-		
-		
+
 
 		/**
 		 * @return string|null
@@ -153,7 +151,7 @@
 		 * @return string|null The queue name or null if none selectable
 		 */
 		public function selectQueue(string $name): ?string {
-			
+
 			if (substr($name, -1) === '*') {
 
 				$namePrefix = substr($name, 0, -1);
@@ -169,15 +167,15 @@
 				$queueCandidates = $this->prefixQueueList[$namePrefix] ?? [];
 			}
 			else {
-				
+
 				// we don't have wildcard but a single queue name => this is our only candidate
 				$queueCandidates = [$name];
 			}
 
-			
+
 			// filter out queues which are paused
 			if ($this->queuePauseTime > 0) {
-				
+
 				// get pausing states
 				$pausingStates = $this->cacheManager()->store($this->cache)->getMultiple(array_merge(
 					array_map(function ($queueName) {
@@ -203,14 +201,14 @@
 						if ($currPausedUntil && $currPausedUntil > $nowTs && $wakeNum == $pausingStates["{$this->cachePrefix}WakeNum{$queueName}"])
 							return false;
 					}
-					
+
 					return true;
 				});
 			}
 
 			// filter out queues exceeding their rate-limit
 			if ($this->queueThrottles) {
-				
+
 				$queueCandidates = array_filter($queueCandidates, function ($queueName) {
 
 					// if we have a throttle, we check token availability
@@ -251,14 +249,14 @@
 		/**
 		 * Wakes the given queue in case it is sleeping
 		 * @param string $queueName The queue name
-		 * @return SqsQueueSelector 
+		 * @return SqsQueueSelector
 		 */
 		public function wake(string $queueName): SqsQueueSelector {
-			
+
 			// we only need this, if pausing is active
 			if ($this->queuePauseTime > 0)
 				$this->cacheManager()->store($this->cache)->increment("{$this->cachePrefix}WakeNum{$queueName}");
-			
+
 			return $this;
 		}
 
@@ -268,11 +266,11 @@
 		 * @return int
 		 */
 		public function lastWake(string $queueName): int {
-			
+
 			// we return a dummy value, if pausing is not active
 			if ($this->queuePauseTime <= 0)
 				return 0;
-			
+
 			return $this->cacheManager()->store($this->cache)->get("{$this->cachePrefix}WakeNum{$queueName}") ?: 0;
 		}
 
@@ -284,17 +282,17 @@
 		 * @return $this
 		 */
 		public function pauseQueue(int $lastWake, string $queueName): SqsQueueSelector {
-			
+
 			// only if pausing is active
 			if ($this->queuePauseTime > 0) {
-				
+
 				$this->cacheManager()->store($this->cache)
 					->forever("{$this->cachePrefix}Paused{$queueName}", [
 						'until'   => Carbon::now()->getTimestamp() + $this->queuePauseTime,
 						'wakeNum' => $lastWake,
 					]);
 			}
-			
+
 			return $this;
 		}
 
@@ -350,11 +348,15 @@
 			$nextToken = null;
 			do {
 
-				$response = $this->sqs->listQueues([
+				$args = [
 					'QueueNamePrefix' => $namePrefix,
-					'NextToken'       => $nextToken,
 					'MaxResults'      => 1000,
-				]);
+				];
+
+				if ($nextToken)
+					$args['NextToken'] = $nextToken;
+
+				$response = $this->sqs->listQueues($args);
 
 				foreach ((array)($response['QueueUrls'] ?? null) as $currQueueUrl) {
 					$lastIndex    = strrpos($currQueueUrl, '/');
@@ -373,24 +375,24 @@
 		 * @return TokenBucketManager The token bucket manager
 		 */
 		protected function tokenBucketManager(): TokenBucketManager {
-			
-			if (!$this->tokenBucketManager) 
+
+			if (!$this->tokenBucketManager)
 				$this->tokenBucketManager = $this->container->make(TokenBucketManager::class);
-			
+
 			return $this->tokenBucketManager;
-			
+
 		}
-		
+
 		/**
 		 * Resolves the cache manager
 		 * @return CacheManager The cache manager
 		 */
 		protected function cacheManager(): CacheManager {
-			
-			if (!$this->cacheManager) 
+
+			if (!$this->cacheManager)
 				$this->cacheManager = $this->container->make('cache');
 
 			return $this->cacheManager;
-			
+
 		}
 	}

@@ -37,7 +37,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -77,7 +76,6 @@
 				->twice()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturnValues([
@@ -220,7 +218,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -253,7 +250,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -287,7 +283,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -324,7 +319,7 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
+					
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -365,7 +360,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -419,7 +413,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -537,7 +530,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -584,7 +576,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([
@@ -635,7 +626,6 @@
 				->once()
 				->with([
 					'QueueNamePrefix' => 'thePrefix',
-					'NextToken'       => null,
 					'MaxResults'      => 1000,
 				])
 				->andReturn(new Result([

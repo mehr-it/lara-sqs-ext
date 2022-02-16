@@ -19,20 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a8979a6-4406-4723-b497-dc404ff2a77a" name="Default Changelist" comment="using PSR-4">
-      <change afterPath="$PROJECT_DIR$/.idea/markdown.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Queue/SqsQueueSelector.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsQueueSelectorTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/lara-sqs-ext.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lara-sqs-ext.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="6a8979a6-4406-4723-b497-dc404ff2a77a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Queue/SqsExtQueue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue/SqsExtQueue.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-bootstrap.php" beforeDir="false" afterPath="$PROJECT_DIR$/test-bootstrap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Cases/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/TestCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsExtQueueTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsExtQueueTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Queue/SqsQueueSelector.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Queue/SqsQueueSelector.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsQueueSelectorTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsQueueSelectorTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +207,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.PHP 8.0 - Laravel 9">
+  <component name="RunManager" selected="PHPUnit.SqsQueueSelectorTest">
     <configuration name="All" type="Multirun" separateTabs="false" reuseTabsWithFailures="true" startOneByOne="true" markFailedProcess="true" hideSuccessProcess="false" delayTime="0.0">
       <runConfiguration name="PHP 7.3 - Laravel 5.8" type="PHPUnit" />
       <runConfiguration name="PHP 7.3 - Laravel 6" type="PHPUnit" />
@@ -381,15 +372,6 @@
       <TestRunner class="MehrItLaraSqsExtTest\Cases\Unit\Queue\SqsExtQueueTest" configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" file="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsExtQueueTest.php" method="testPopProperlyHandlesEmptyMessage" scope="Method" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
-    <configuration name="SqsExtQueueTest.testPopProperlyPopsJobOffOfSqs_encrypted" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine>
-        <PhpTestInterpreterSettings>
-          <option name="interpreterName" value="Homestead PHP 8.0" />
-        </PhpTestInterpreterSettings>
-      </CommandLine>
-      <TestRunner class="MehrItLaraSqsExtTest\Cases\Unit\Queue\SqsExtQueueTest" configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" file="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsExtQueueTest.php" method="testPopProperlyPopsJobOffOfSqs_encrypted" scope="Method" use_alternative_configuration_file="true" />
-      <method v="2" />
-    </configuration>
     <configuration name="SqsExtQueueTest.testPopProperlyPopsJobOffOfSqs_usingWildcard" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <CommandLine>
         <PhpTestInterpreterSettings>
@@ -406,6 +388,15 @@
         </PhpTestInterpreterSettings>
       </CommandLine>
       <TestRunner class="MehrItLaraSqsExtTest\Cases\Unit\Queue\SqsExtQueueTest" configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" file="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsExtQueueTest.php" method="testPopSleepsWhenNoQueueAvailable" scope="Method" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SqsQueueSelectorTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="Homestead PHP 8.0" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <TestRunner class="MehrItLaraSqsExtTest\Cases\Unit\Queue\SqsQueueSelectorTest" configuration_file="$PROJECT_DIR$/phpunit.xml" directory="$PROJECT_DIR$/test/Cases" file="$PROJECT_DIR$/test/Cases/Unit/Queue/SqsQueueSelectorTest.php" scope="Class" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -430,19 +421,19 @@
       <item itemvalue="PHPUnit.PHP 8.0 - Laravel 7" />
       <item itemvalue="PHPUnit.PHP 8.0 - Laravel 8" />
       <item itemvalue="PHPUnit.PHP 8.0 - Laravel 9" />
-      <item itemvalue="PHPUnit.SqsExtQueueTest.testPopProperlyPopsJobOffOfSqs_encrypted" />
       <item itemvalue="PHPUnit.SqsExtQueueTest.testDelayedPushWithDateTimeProperlyPushesJobOntoSqs" />
       <item itemvalue="PHPUnit.SqsExtQueueTest.testPopProperlyHandlesEmptyMessage" />
       <item itemvalue="PHPUnit.SqsExtQueueTest.testPopProperlyPopsJobOffOfSqs_usingWildcard" />
       <item itemvalue="PHPUnit.SqsExtQueueTest.testPopSleepsWhenNoQueueAvailable" />
+      <item itemvalue="PHPUnit.SqsQueueSelectorTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.SqsQueueSelectorTest" />
         <item itemvalue="PHPUnit.SqsExtQueueTest.testPopSleepsWhenNoQueueAvailable" />
         <item itemvalue="PHPUnit.SqsExtQueueTest.testPopProperlyPopsJobOffOfSqs_usingWildcard" />
         <item itemvalue="PHPUnit.SqsExtQueueTest.testPopProperlyHandlesEmptyMessage" />
         <item itemvalue="PHPUnit.SqsExtQueueTest.testDelayedPushWithDateTimeProperlyPushesJobOntoSqs" />
-        <item itemvalue="PHPUnit.SqsExtQueueTest.testPopProperlyPopsJobOffOfSqs_encrypted" />
       </list>
     </recent_temporary>
   </component>
@@ -517,7 +508,7 @@
       <workItem from="1637570705853" duration="598000" />
       <workItem from="1644404811735" duration="5161000" />
       <workItem from="1644494455985" duration="7119000" />
-      <workItem from="1644835154500" duration="47994000" />
+      <workItem from="1644835154500" duration="51268000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <created>1546628668062</created>
@@ -701,7 +692,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607499759043</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="added throttling and wildcards for workers">
+      <created>1644947231158</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1644947231158</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -733,7 +731,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial commit" />
     <MESSAGE value="added visibility timeout management" />
     <MESSAGE value="moved visibility timeout management to jobs instead ob SqsExtJob class" />
     <MESSAGE value="InteractsWithSqsQueue trait checks for presence of SqsJob before calling setVisibilityTimeout" />
@@ -758,7 +755,8 @@
     <MESSAGE value="automatically disable listen lock, when lock file is not accessible" />
     <MESSAGE value="support laravel 8" />
     <MESSAGE value="using PSR-4" />
-    <option name="LAST_COMMIT_MESSAGE" value="using PSR-4" />
+    <MESSAGE value="added throttling and wildcards for workers" />
+    <option name="LAST_COMMIT_MESSAGE" value="added throttling and wildcards for workers" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
