@@ -206,19 +206,6 @@
 				});
 			}
 
-			// filter out queues exceeding their rate-limit
-			if ($this->queueThrottles) {
-
-				$queueCandidates = array_filter($queueCandidates, function ($queueName) {
-
-					// if we have a throttle, we check token availability
-					if ($currThrottle = $this->queueThrottle($queueName))
-						return $currThrottle->estimateAvailability() <= 0.01;
-
-					return true;
-				});
-			}
-
 			// sort queues by the time of their last selection (the oldest first)
 			usort($queueCandidates, function ($queueA, $queueB) {
 
@@ -230,7 +217,7 @@
 			});
 
 
-			// return the first candidate for which we really could take a fetch token, if not throttled
+			// return the first candidate for which we could take a fetch token, if throttled
 			foreach ($queueCandidates as $currCandidate) {
 
 				$currThrottle = $this->queueThrottle($currCandidate);
