@@ -177,14 +177,15 @@
 			if ($this->queuePauseTime > 0) {
 
 				// get pausing states
-				$pausingStates = $this->cacheManager()->store($this->cache)->getMultiple(array_merge(
+				$pausingCacheKeys = array_merge(
 					array_map(function ($queueName) {
 						return "{$this->cachePrefix}Paused{$queueName}";
 					}, $queueCandidates),
 					array_map(function ($queueName) {
 						return "{$this->cachePrefix}WakeNum{$queueName}";
 					}, $queueCandidates)
-				));
+				);
+				$pausingStates = $pausingCacheKeys ? $this->cacheManager()->store($this->cache)->getMultiple($pausingCacheKeys) : [];
 
 				// filter
 				$nowTs           = Carbon::now()->getTimestamp();
